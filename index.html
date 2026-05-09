@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Inversión</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0E13;
+    --bg-elev: #131820;
+    --bg-card: #161D26;
+    --border: #232C38;
+    --border-strong: #2E3A48;
+    --text: #E8ECF1;
+    --text-dim: #8B95A5;
+    --text-muted: #5A6577;
+    --green: #00D68F;
+    --green-glow: rgba(0, 214, 143, 0.15);
+    --red: #FF4D6D;
+    --red-glow: rgba(255, 77, 109, 0.15);
+    --amber: #FFB547;
+    --accent: #5DA9FF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    padding: 32px 20px;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(93, 169, 255, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(0, 214, 143, 0.05) 0%, transparent 45%);
+  }
+
+  /* Números tabulares en todo lo que muestre cifras */
+  .result-total, .meta-value, .slider-value, .slider-value-prefix, .slider-value-suffix,
+  .stop-amount, .stop-protected, #liveTime {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-tag {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .header h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+
+  .header h1 em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* Resultado principal */
+  .result-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elev) 100%);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--text-dim);
+    transition: background 0.3s ease;
+  }
+
+  .result-card.profit { border-color: rgba(0, 214, 143, 0.3); box-shadow: 0 0 40px var(--green-glow); }
+  .result-card.profit::before { background: var(--green); }
+  .result-card.loss { border-color: rgba(255, 77, 109, 0.3); box-shadow: 0 0 40px var(--red-glow); }
+  .result-card.loss::before { background: var(--red); }
+
+  .result-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .profit .status-dot { background: var(--green); box-shadow: 0 0 10px var(--green); }
+  .loss .status-dot { background: var(--red); box-shadow: 0 0 10px var(--red); }
+
+  .result-total {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 14px;
+    transition: color 0.3s ease;
+  }
+  .profit .result-total { color: var(--green); }
+  .loss .result-total { color: var(--red); }
+
+  .result-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .meta-value {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .meta-value.gain { color: var(--green); }
+  .meta-value.gain-loss { color: var(--red); }
+
+  /* Slider cards */
+  .slider-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s ease;
+  }
+
+  .slider-card:hover {
+    border-color: var(--border-strong);
+  }
+
+  .slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+    gap: 16px;
+  }
+
+  .slider-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .slider-value-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .slider-value-prefix,
+  .slider-value-suffix {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  .slider-value {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    background: transparent;
+    border: none;
+    text-align: right;
+    width: 140px;
+    outline: none;
+  }
+
+  .slider-value:focus {
+    color: var(--accent);
+  }
+
+  .slider-card.pct .slider-value { color: var(--accent); }
+  .slider-card.pct.gain .slider-value { color: var(--green); }
+  .slider-card.pct.loss .slider-value { color: var(--red); }
+  .slider-card.pct.gain .slider-value-suffix { color: var(--green); }
+  .slider-card.pct.loss .slider-value-suffix { color: var(--red); }
+
+  /* Custom range slider */
+  .slider-track-wrap {
+    position: relative;
+    height: 32px;
+    display: flex;
+    align-items: center;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    outline: none;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .track-bg {
+    position: absolute;
+    left: 0; right: 0;
+    height: 4px;
+    background: var(--border-strong);
+    border-radius: 4px;
+    z-index: 1;
+  }
+
+  .track-fill {
+    position: absolute;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 4px;
+    z-index: 1;
+    pointer-events: none;
+    transition: background 0.2s ease;
+  }
+
+  .pct .track-fill.gain { background: var(--green); }
+  .pct .track-fill.loss { background: var(--red); }
+
+  /* Marca de centro para slider de % */
+  .center-mark {
+    position: absolute;
+    top: -4px;
+    width: 2px;
+    height: 12px;
+    background: var(--text-muted);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 1px;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--text);
+    border: 3px solid var(--bg);
+    cursor: grab;
+    box-shadow: 0 0 0 1px var(--border-strong), 0 4px 12px rgba(0,0,0,0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  input[type="range"]:active::-webkit-slider-thumb {
+    cursor: grabbing;
+    transform: scale(1.15);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--text);
+    border: 3px solid var(--bg);
+    cursor: grab;
+    box-shadow: 0 0 0 1px var(--border-strong), 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  /* Range labels */
+  .range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Quick presets */
+  .presets {
+    display: flex;
+    gap: 6px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  .preset-btn {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-weight: 500;
+  }
+
+  .preset-btn:hover {
+    background: var(--border);
+    color: var(--text);
+    border-color: var(--border-strong);
+  }
+
+  .preset-btn:active { transform: translateY(1px); }
+
+  /* Stop loss summary */
+  .stop-summary {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stop-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stop-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .stop-amount {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--red);
+  }
+
+  .stop-protected {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .slider-card.stop .slider-value { color: var(--red); }
+
+  /* ─── Volatility-based SL section ─── */
+  .vol-card { padding: 22px 24px 20px; }
+
+  .vol-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .api-config-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s ease;
+  }
+  .api-config-btn:hover { border-color: var(--text-dim); color: var(--text); }
+
+  .ticker-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .ticker-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 11px 14px;
+    border-radius: 8px;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: border-color 0.15s ease;
+  }
+  .ticker-input:focus { border-color: var(--accent); }
+  .ticker-input::placeholder { color: var(--text-muted); font-weight: 500; letter-spacing: 0; text-transform: none; }
+
+  .fetch-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .fetch-btn:hover { background: #4a96e8; }
+  .fetch-btn:active { transform: translateY(1px); }
+  .fetch-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .api-config {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .api-config > div:first-child,
+  .api-config { gap: 8px; }
+
+  .api-input {
+    width: 100%;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    outline: none;
+  }
+  .api-input:focus { border-color: var(--accent); }
+
+  .save-key-btn {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    align-self: flex-start;
+  }
+  .save-key-btn:hover { background: var(--border); }
+
+  .api-help {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .api-help a { color: var(--accent); text-decoration: none; }
+  .api-help a:hover { text-decoration: underline; }
+
+  .status-msg {
+    font-size: 12px;
+    color: var(--text-muted);
+    min-height: 18px;
+    margin-top: 4px;
+  }
+  .status-msg.error { color: var(--red); }
+  .status-msg.success { color: var(--green); }
+  .status-msg.loading { color: var(--accent); }
+
+  .vol-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0 18px;
+  }
+
+  .vol-stat {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .vol-stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .vol-stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .vol-stat-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  .vol-stat-sub.up { color: var(--green); }
+  .vol-stat-sub.down { color: var(--red); }
+
+  .multiplier-row, .rr-row, .risk-pct-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .mult-label, .risk-pct-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .mult-buttons {
+    display: flex;
+    gap: 4px;
+  }
+
+  .mult-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 11px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .mult-btn:hover { color: var(--text); border-color: var(--border-strong); }
+  .mult-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .recommendations {
+    margin: 18px 0 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .rec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    border-left-width: 3px;
+  }
+  .rec-row.red { border-left-color: var(--red); }
+  .rec-row.green { border-left-color: var(--green); }
+  .rec-row.blue { border-left-color: var(--accent); }
+
+  .rec-tag {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .rec-formula {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .rec-values { text-align: right; }
+
+  .rec-price {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+  }
+  .rec-row.red .rec-price { color: var(--red); }
+  .rec-row.green .rec-price { color: var(--green); }
+  .rec-row.blue .rec-price { color: var(--accent); }
+
+  .rec-pct {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .apply-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent), #4a96e8);
+    color: #fff;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.15s ease;
+    letter-spacing: 0.02em;
+  }
+  .apply-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(93, 169, 255, 0.3); }
+  .apply-btn:active { transform: translateY(0); }
+
+  /* Footer */
+  .footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .reset-btn:hover { border-color: var(--text-dim); color: var(--text); }
+
+  @media (max-width: 520px) {
+    .header h1 { font-size: 30px; }
+    .result-total { font-size: 36px; }
+    .slider-value { font-size: 22px; width: 110px; }
+    .result-meta { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="header">
+    <div class="header-tag">P&amp;L Calculator · Trading Tools</div>
+    <h1>Calculadora de <em>Inversión</em></h1>
+  </header>
+
+  <!-- Resultado -->
+  <div class="result-card" id="resultCard">
+    <div class="result-label">
+      <span class="status-dot"></span>
+      <span id="resultLabel">Total Resultante</span>
+    </div>
+    <div class="result-total" id="totalDisplay">$10,000.00</div>
+    <div class="result-meta">
+      <div class="meta-item">
+        <div class="meta-label">P/L Absoluto</div>
+        <div class="meta-value" id="pnlAbs">$0.00</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">P/L Porcentaje</div>
+        <div class="meta-value" id="pnlPct">0.00%</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">ROI Multiplicador</div>
+        <div class="meta-value" id="roiMult">1.00×</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Riesgo / Recompensa</div>
+        <div class="meta-value" id="rrRatio">— : —</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Volatility-based Stop Loss recommendation -->
+  <div class="slider-card vol-card" id="volCard">
+    <div class="vol-header">
+      <div class="vol-title-row">
+        <div class="slider-title">
+          <span style="display:inline-block; width:6px; height:6px; background:var(--amber); border-radius:50%; margin-right:6px; box-shadow: 0 0 6px var(--amber);"></span>
+          SL por Volatilidad (ATR)
+        </div>
+        <button class="api-config-btn" id="apiConfigBtn" title="Configurar API key">⚙</button>
+      </div>
+      <div class="ticker-row">
+        <input type="text" class="ticker-input" id="tickerInput" placeholder="NBIS, AMD, NVDA..." maxlength="6">
+        <button class="fetch-btn" id="fetchBtn">Buscar datos</button>
+      </div>
+      <div class="api-config" id="apiConfig" style="display:none;">
+        <input type="text" class="api-input" id="apiKeyInput" placeholder="Pega tu API key de Finnhub aquí">
+        <button class="save-key-btn" id="saveKeyBtn">Guardar</button>
+        <div class="api-help">
+          ¿No tienes? Regístrate gratis en <a href="https://finnhub.io/register" target="_blank">finnhub.io/register</a> (30 seg, sin tarjeta)
+        </div>
+      </div>
+      <div class="status-msg" id="volStatus"></div>
+    </div>
+
+    <div class="vol-data" id="volData" style="display:none;">
+      <div class="vol-grid">
+        <div class="vol-stat">
+          <div class="vol-stat-label">Precio actual</div>
+          <div class="vol-stat-value" id="volPrice">$—</div>
+          <div class="vol-stat-sub" id="volChange">—</div>
+        </div>
+        <div class="vol-stat">
+          <div class="vol-stat-label">ATR (14d)</div>
+          <div class="vol-stat-value" id="volAtr">$—</div>
+          <div class="vol-stat-sub" id="volAtrPct">— vol</div>
+        </div>
+      </div>
+
+      <div class="multiplier-row">
+        <span class="mult-label">Multiplicador ATR</span>
+        <div class="mult-buttons">
+          <button class="mult-btn" data-mult="1.5">1.5×</button>
+          <button class="mult-btn active" data-mult="2">2× <span style="opacity:.6">(swing)</span></button>
+          <button class="mult-btn" data-mult="3">3×</button>
+        </div>
+      </div>
+
+      <div class="rr-row">
+        <span class="mult-label">Take Profit (R:R)</span>
+        <div class="mult-buttons">
+          <button class="mult-btn" data-rr="1.5">1:1.5</button>
+          <button class="mult-btn active" data-rr="2">1:2</button>
+          <button class="mult-btn" data-rr="3">1:3</button>
+        </div>
+      </div>
+
+      <div class="recommendations">
+        <div class="rec-row red">
+          <div class="rec-label">
+            <div class="rec-tag">SL Recomendado</div>
+            <div class="rec-formula" id="slFormula">Precio − (ATR × 2)</div>
+          </div>
+          <div class="rec-values">
+            <div class="rec-price" id="slPrice">$—</div>
+            <div class="rec-pct" id="slPct">−—%</div>
+          </div>
+        </div>
+
+        <div class="rec-row green">
+          <div class="rec-label">
+            <div class="rec-tag">Take Profit</div>
+            <div class="rec-formula" id="tpFormula">Precio + (ATR × 4)</div>
+          </div>
+          <div class="rec-values">
+            <div class="rec-price" id="tpPrice">$—</div>
+            <div class="rec-pct" id="tpPct">+—%</div>
+          </div>
+        </div>
+
+        <div class="rec-row blue">
+          <div class="rec-label">
+            <div class="rec-tag">Position Size</div>
+            <div class="rec-formula" id="posFormula">Riesgo: 1% del capital</div>
+          </div>
+          <div class="rec-values">
+            <div class="rec-price" id="posShares">— shares</div>
+            <div class="rec-pct" id="posValue">$—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="risk-pct-row">
+        <span class="risk-pct-label">% del capital a arriesgar</span>
+        <div class="mult-buttons">
+          <button class="mult-btn" data-risk="0.5">0.5%</button>
+          <button class="mult-btn active" data-risk="1">1%</button>
+          <button class="mult-btn" data-risk="2">2%</button>
+          <button class="mult-btn" data-risk="3">3%</button>
+        </div>
+      </div>
+
+      <button class="apply-btn" id="applyVolBtn">Aplicar a calculadora ↑</button>
+    </div>
+  </div>
+
+  <!-- Stop Loss -->
+  <div class="slider-card stop" id="stopCard">
+    <div class="slider-header">
+      <div class="slider-title">
+        <span style="display:inline-block; width:6px; height:6px; background:var(--red); border-radius:50%; margin-right:6px; box-shadow: 0 0 6px var(--red);"></span>
+        Stop Loss
+      </div>
+      <div class="slider-value-wrap">
+        <input type="text" class="slider-value" id="stopValue" value="-5.00">
+        <span class="slider-value-suffix" style="color: var(--red);">%</span>
+      </div>
+    </div>
+    <div class="slider-track-wrap">
+      <div class="track-bg"></div>
+      <div class="track-fill loss" id="stopFill"></div>
+      <input type="range" id="stopSlider" min="-50" max="0" step="0.5" value="-5">
+    </div>
+    <div class="range-labels">
+      <span>−50%</span>
+      <span>−25%</span>
+      <span>0%</span>
+    </div>
+    <div class="presets">
+      <button class="preset-btn" data-stop="-1">−1%</button>
+      <button class="preset-btn" data-stop="-2">−2%</button>
+      <button class="preset-btn" data-stop="-3">−3%</button>
+      <button class="preset-btn" data-stop="-5">−5%</button>
+      <button class="preset-btn" data-stop="-8">−8%</button>
+      <button class="preset-btn" data-stop="-10">−10%</button>
+      <button class="preset-btn" data-stop="-15">−15%</button>
+    </div>
+    <div class="stop-summary" id="stopSummary">
+      <div class="stop-row">
+        <span class="stop-label">Pérdida máxima si toca SL</span>
+        <span class="stop-amount" id="stopAmount">−$500.00</span>
+      </div>
+      <div class="stop-row">
+        <span class="stop-label">Capital protegido</span>
+        <span class="stop-protected" id="stopProtected">$9,500.00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inversión -->
+  <div class="slider-card" id="invCard">
+    <div class="slider-header">
+      <div class="slider-title">Monto de Inversión</div>
+      <div class="slider-value-wrap">
+        <span class="slider-value-prefix">$</span>
+        <input type="text" class="slider-value" id="invValue" value="10,000">
+      </div>
+    </div>
+    <div class="slider-track-wrap">
+      <div class="track-bg"></div>
+      <div class="track-fill" id="invFill"></div>
+      <input type="range" id="invSlider" min="100" max="100000" step="100" value="10000">
+    </div>
+    <div class="range-labels">
+      <span>$100</span>
+      <span>$100,000</span>
+    </div>
+    <div class="presets">
+      <button class="preset-btn" data-inv="500">$500</button>
+      <button class="preset-btn" data-inv="1000">$1K</button>
+      <button class="preset-btn" data-inv="5000">$5K</button>
+      <button class="preset-btn" data-inv="10000">$10K</button>
+      <button class="preset-btn" data-inv="25000">$25K</button>
+      <button class="preset-btn" data-inv="50000">$50K</button>
+    </div>
+  </div>
+
+  <!-- Porcentaje -->
+  <div class="slider-card pct" id="pctCard">
+    <div class="slider-header">
+      <div class="slider-title">Ganancia / Pérdida</div>
+      <div class="slider-value-wrap">
+        <input type="text" class="slider-value" id="pctValue" value="0.00">
+        <span class="slider-value-suffix" id="pctSuffix">%</span>
+      </div>
+    </div>
+    <div class="slider-track-wrap">
+      <div class="track-bg"></div>
+      <div class="track-fill" id="pctFill"></div>
+      <div class="center-mark" style="left: 50%;"></div>
+      <input type="range" id="pctSlider" min="-100" max="100" step="0.5" value="10">
+    </div>
+    <div class="range-labels">
+      <span>−100%</span>
+      <span>0%</span>
+      <span>+100%</span>
+    </div>
+    <div class="presets">
+      <button class="preset-btn" data-pct="-50">−50%</button>
+      <button class="preset-btn" data-pct="-10">−10%</button>
+      <button class="preset-btn" data-pct="-5">−5%</button>
+      <button class="preset-btn" data-pct="5">+5%</button>
+      <button class="preset-btn" data-pct="10">+10%</button>
+      <button class="preset-btn" data-pct="25">+25%</button>
+      <button class="preset-btn" data-pct="50">+50%</button>
+      <button class="preset-btn" data-pct="100">+100%</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span id="liveTime">— —:—:—</span>
+    <button class="reset-btn" id="resetBtn">↺ Reset</button>
+  </div>
+</div>
+
+<script>
+  const invSlider = document.getElementById('invSlider');
+  const pctSlider = document.getElementById('pctSlider');
+  const stopSlider = document.getElementById('stopSlider');
+  const invValue = document.getElementById('invValue');
+  const pctValue = document.getElementById('pctValue');
+  const stopValue = document.getElementById('stopValue');
+  const invFill = document.getElementById('invFill');
+  const pctFill = document.getElementById('pctFill');
+  const stopFill = document.getElementById('stopFill');
+  const totalDisplay = document.getElementById('totalDisplay');
+  const pnlAbs = document.getElementById('pnlAbs');
+  const pnlPct = document.getElementById('pnlPct');
+  const roiMult = document.getElementById('roiMult');
+  const rrRatio = document.getElementById('rrRatio');
+  const stopAmount = document.getElementById('stopAmount');
+  const stopProtected = document.getElementById('stopProtected');
+  const resultCard = document.getElementById('resultCard');
+  const resultLabel = document.getElementById('resultLabel');
+  const pctCard = document.getElementById('pctCard');
+  const pctSuffix = document.getElementById('pctSuffix');
+
+  const fmtMoney = (n) => {
+    const sign = n < 0 ? '-' : '';
+    return sign + '$' + Math.abs(n).toLocaleString('en-US', {
+      minimumFractionDigits: 2, maximumFractionDigits: 2
+    });
+  };
+
+  const fmtNumber = (n) => n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+  function updateInvFill() {
+    const min = +invSlider.min, max = +invSlider.max, val = +invSlider.value;
+    const pct = ((val - min) / (max - min)) * 100;
+    invFill.style.left = '0%';
+    invFill.style.width = pct + '%';
+  }
+
+  function updatePctFill() {
+    const val = +pctSlider.value;
+    const min = +pctSlider.min, max = +pctSlider.max;
+    const range = max - min; // 200
+    const center = ((0 - min) / range) * 100; // 50
+    const valPos = ((val - min) / range) * 100;
+
+    pctFill.classList.remove('gain', 'loss');
+    pctCard.classList.remove('gain', 'loss');
+
+    if (val >= 0) {
+      pctFill.style.left = center + '%';
+      pctFill.style.width = (valPos - center) + '%';
+      if (val > 0) {
+        pctFill.classList.add('gain');
+        pctCard.classList.add('gain');
+      }
+    } else {
+      pctFill.style.left = valPos + '%';
+      pctFill.style.width = (center - valPos) + '%';
+      pctFill.classList.add('loss');
+      pctCard.classList.add('loss');
+    }
+  }
+
+  function updateStopFill() {
+    const min = +stopSlider.min, max = +stopSlider.max, val = +stopSlider.value;
+    // El slider va de -50 a 0. El "lleno" representa qué tan cerca de 0 (menos pérdida) o lejos de 0 (más pérdida)
+    const pct = ((val - min) / (max - min)) * 100;
+    stopFill.style.left = pct + '%';
+    stopFill.style.width = (100 - pct) + '%';
+  }
+
+  function calculate() {
+    const inv = +invSlider.value;
+    const pct = +pctSlider.value;
+    const stop = +stopSlider.value;
+    const total = inv * (1 + pct / 100);
+    const pnl = total - inv;
+    const mult = inv > 0 ? total / inv : 0;
+    const stopLoss = inv * (stop / 100); // negativo
+    const protectedCapital = inv + stopLoss;
+
+    invValue.value = fmtNumber(inv);
+    pctValue.value = (pct >= 0 ? '+' : '') + pct.toFixed(2);
+    stopValue.value = stop.toFixed(2);
+
+    totalDisplay.textContent = fmtMoney(total);
+    pnlAbs.textContent = (pnl >= 0 ? '+' : '') + fmtMoney(pnl).replace('-', '');
+    pnlPct.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+    roiMult.textContent = mult.toFixed(2) + '×';
+
+    // Stop loss display
+    stopAmount.textContent = fmtMoney(stopLoss);
+    stopProtected.textContent = fmtMoney(protectedCapital);
+
+    // Risk / Reward ratio: usa el % como target de ganancia
+    if (stop < 0 && pct !== 0) {
+      const reward = Math.abs(pct);
+      const risk = Math.abs(stop);
+      const ratio = reward / risk;
+      // Formato: si el ratio es >= 1, mostrar "1 : X"; si es < 1, mostrar "X : 1"
+      let rrText;
+      if (ratio >= 1) {
+        rrText = '1 : ' + ratio.toFixed(2);
+      } else {
+        rrText = (1 / ratio).toFixed(2) + ' : 1';
+      }
+      rrRatio.textContent = rrText;
+      // Color: verde si R:R favorable (≥2), rojo si desfavorable (<1), neutral en medio
+      rrRatio.classList.remove('gain', 'gain-loss');
+      if (pct < 0) {
+        // Si esperas pérdida, el R:R no aplica de manera útil — solo muestra info
+        rrRatio.classList.add('gain-loss');
+      } else if (ratio >= 2) {
+        rrRatio.classList.add('gain');
+      } else if (ratio < 1) {
+        rrRatio.classList.add('gain-loss');
+      }
+    } else {
+      rrRatio.textContent = '— : —';
+      rrRatio.classList.remove('gain', 'gain-loss');
+    }
+
+    resultCard.classList.remove('profit', 'loss');
+    pnlAbs.classList.remove('gain', 'gain-loss');
+    pnlPct.classList.remove('gain', 'gain-loss');
+
+    if (pct > 0) {
+      resultCard.classList.add('profit');
+      resultLabel.textContent = 'Ganancia · Total Resultante';
+      pnlAbs.classList.add('gain');
+      pnlPct.classList.add('gain');
+    } else if (pct < 0) {
+      resultCard.classList.add('loss');
+      resultLabel.textContent = 'Pérdida · Total Resultante';
+      pnlAbs.classList.add('gain-loss');
+      pnlPct.classList.add('gain-loss');
+    } else {
+      resultLabel.textContent = 'Total Resultante';
+    }
+
+    updateInvFill();
+    updatePctFill();
+    updateStopFill();
+  }
+
+  // Slider events
+  invSlider.addEventListener('input', calculate);
+  pctSlider.addEventListener('input', calculate);
+  stopSlider.addEventListener('input', calculate);
+
+  // Edición manual del input de inversión
+  invValue.addEventListener('focus', () => {
+    invValue.value = invValue.value.replace(/,/g, '');
+    invValue.select();
+  });
+  invValue.addEventListener('blur', () => {
+    let v = parseFloat(invValue.value.replace(/[^0-9.-]/g, '')) || 0;
+    v = Math.max(+invSlider.min, Math.min(+invSlider.max, v));
+    invSlider.value = v;
+    calculate();
+  });
+  invValue.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') invValue.blur();
+  });
+
+  // Edición manual del input de porcentaje
+  pctValue.addEventListener('focus', () => {
+    pctValue.value = pctValue.value.replace(/[+%]/g, '');
+    pctValue.select();
+  });
+  pctValue.addEventListener('blur', () => {
+    let v = parseFloat(pctValue.value.replace(/[^0-9.-]/g, '')) || 0;
+    v = Math.max(+pctSlider.min, Math.min(+pctSlider.max, v));
+    pctSlider.value = v;
+    calculate();
+  });
+  pctValue.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') pctValue.blur();
+  });
+
+  // Edición manual del stop loss
+  stopValue.addEventListener('focus', () => {
+    stopValue.value = stopValue.value.replace(/[%+]/g, '');
+    stopValue.select();
+  });
+  stopValue.addEventListener('blur', () => {
+    let v = parseFloat(stopValue.value.replace(/[^0-9.-]/g, '')) || 0;
+    if (v > 0) v = -v; // Stop loss siempre negativo
+    v = Math.max(+stopSlider.min, Math.min(+stopSlider.max, v));
+    stopSlider.value = v;
+    calculate();
+  });
+  stopValue.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') stopValue.blur();
+  });
+
+  // Presets
+  document.querySelectorAll('[data-inv]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      invSlider.value = btn.dataset.inv;
+      calculate();
+    });
+  });
+  document.querySelectorAll('[data-pct]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      pctSlider.value = btn.dataset.pct;
+      calculate();
+    });
+  });
+  document.querySelectorAll('[data-stop]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      stopSlider.value = btn.dataset.stop;
+      calculate();
+    });
+  });
+
+  // Reset
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    invSlider.value = 10000;
+    pctSlider.value = 10;
+    stopSlider.value = -5;
+    calculate();
+  });
+
+  // Live clock
+  function updateClock() {
+    const now = new Date();
+    const t = now.toLocaleTimeString('en-US', { hour12: false });
+    document.getElementById('liveTime').textContent = 'LIVE · ' + t;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // ────────────────────────────────────────────────────────
+  // VOLATILITY-BASED STOP LOSS (Finnhub API)
+  // ────────────────────────────────────────────────────────
+  const FINNHUB_BASE = 'https://finnhub.io/api/v1';
+
+  const tickerInput = document.getElementById('tickerInput');
+  const fetchBtn = document.getElementById('fetchBtn');
+  const apiConfigBtn = document.getElementById('apiConfigBtn');
+  const apiConfig = document.getElementById('apiConfig');
+  const apiKeyInput = document.getElementById('apiKeyInput');
+  const saveKeyBtn = document.getElementById('saveKeyBtn');
+  const volStatus = document.getElementById('volStatus');
+  const volData = document.getElementById('volData');
+
+  // Estado de la sección
+  let volState = {
+    ticker: null,
+    price: null,
+    atr: null,
+    change: null,
+    changePct: null,
+    multiplier: 2,
+    rrRatio: 2,
+    riskPct: 1
+  };
+
+  // API key persistente — usamos sessionStorage si está disponible, si no, variable
+  // (Algunos entornos restringen localStorage; sessionStorage suele funcionar)
+  let apiKey = '';
+  try { apiKey = sessionStorage.getItem('finnhub_key') || ''; } catch(e) {}
+
+  if (apiKey) {
+    apiKeyInput.value = apiKey;
+  }
+
+  // Toggle config panel
+  apiConfigBtn.addEventListener('click', () => {
+    apiConfig.style.display = apiConfig.style.display === 'none' ? 'flex' : 'none';
+    apiConfig.style.flexDirection = 'column';
+  });
+
+  saveKeyBtn.addEventListener('click', () => {
+    const key = apiKeyInput.value.trim();
+    if (!key) {
+      setStatus('Pega tu API key primero', 'error');
+      return;
+    }
+    apiKey = key;
+    try { sessionStorage.setItem('finnhub_key', key); } catch(e) {}
+    setStatus('API key guardada ✓', 'success');
+    setTimeout(() => { apiConfig.style.display = 'none'; setStatus(''); }, 1200);
+  });
+
+  function setStatus(msg, type = '') {
+    volStatus.textContent = msg;
+    volStatus.className = 'status-msg' + (type ? ' ' + type : '');
+  }
+
+  // Fetch de precio + métricas para estimar volatilidad
+  async function fetchTickerData(ticker) {
+    if (!apiKey) {
+      setStatus('Configura tu API key primero (botón ⚙)', 'error');
+      apiConfig.style.display = 'flex';
+      apiConfig.style.flexDirection = 'column';
+      return;
+    }
+
+    setStatus('Buscando datos de ' + ticker + '...', 'loading');
+    fetchBtn.disabled = true;
+
+    try {
+      // Hacemos las 2 llamadas en paralelo
+      const quoteUrl = `${FINNHUB_BASE}/quote?symbol=${ticker}&token=${apiKey}`;
+      const metricUrl = `${FINNHUB_BASE}/stock/metric?symbol=${ticker}&metric=all&token=${apiKey}`;
+
+      const [quoteRes, metricRes] = await Promise.all([
+        fetch(quoteUrl),
+        fetch(metricUrl)
+      ]);
+
+      if (!quoteRes.ok) {
+        if (quoteRes.status === 401 || quoteRes.status === 403) {
+          throw new Error('API key inválida. Verifica tu key en finnhub.io/dashboard');
+        }
+        if (quoteRes.status === 429) {
+          throw new Error('Demasiadas requests. Espera 1 minuto.');
+        }
+        throw new Error('Error de API: ' + quoteRes.status);
+      }
+
+      const quote = await quoteRes.json();
+
+      if (!quote.c || quote.c === 0) {
+        throw new Error('Ticker no encontrado o sin datos. ¿Está bien escrito?');
+      }
+
+      const currentPrice = quote.c;
+      const prevClose = quote.pc;
+      const dayHigh = quote.h;
+      const dayLow = quote.l;
+      const change = currentPrice - prevClose;
+      const changePct = (change / prevClose) * 100;
+
+      // Calcular ATR aproximado usando datos disponibles
+      let atr = null;
+      let atrSource = '';
+
+      // Intentar obtener métricas (incluye volatilidad anual)
+      let metric = null;
+      if (metricRes.ok) {
+        const metricData = await metricRes.json();
+        metric = metricData.metric || null;
+      }
+
+      if (metric) {
+        // Opción 1: usar volatilidad anualizada de 52 semanas si está disponible
+        // Convertir vol anualizada → volatilidad diaria → estimar ATR
+        // ATR ≈ precio × (vol_diaria) × ~1.25 (factor empírico high-low vs std dev)
+        const volAnnual = metric['monthlyVolatility'] || metric['3MonthADReturnStd'];
+
+        if (volAnnual && volAnnual > 0) {
+          // Convertir vol mensual/anual a diaria (raíz de tiempo)
+          // Si es mensual, dividir por sqrt(21); si es anual, sqrt(252)
+          const volDaily = metric['monthlyVolatility']
+            ? volAnnual / Math.sqrt(21)
+            : volAnnual / Math.sqrt(252);
+          atr = currentPrice * (volDaily / 100) * 1.25;
+          atrSource = 'Calculado desde volatilidad histórica';
+        }
+
+        // Opción 2: usar el rango de 52 semanas como fallback
+        if (!atr && metric['52WeekHigh'] && metric['52WeekLow']) {
+          // Aproximación grosera: rango / 30 ≈ ATR diario típico
+          const yearRange = metric['52WeekHigh'] - metric['52WeekLow'];
+          atr = yearRange / 30;
+          atrSource = 'Estimado desde rango anual (52w)';
+        }
+      }
+
+      // Opción 3 (fallback final): rango high-low del día
+      if (!atr && dayHigh && dayLow && dayHigh > dayLow) {
+        atr = dayHigh - dayLow;
+        atrSource = 'Rango del día (menos preciso)';
+      }
+
+      if (!atr) {
+        throw new Error('No se pudo calcular volatilidad para este ticker');
+      }
+
+      setStatus(`✓ ${ticker} cargado · ${atrSource}`, 'success');
+
+      // Actualizar estado
+      volState.ticker = ticker;
+      volState.price = currentPrice;
+      volState.atr = atr;
+      volState.change = change;
+      volState.changePct = changePct;
+
+      renderVolData();
+    } catch (err) {
+      let msg = err.message;
+      if (msg === 'Failed to fetch') {
+        msg = 'Conexión bloqueada. Si abriste el archivo directamente (file://), Chrome bloquea las APIs por CORS. Solución abajo ↓';
+        setStatus(msg, 'error');
+        showCorsHelp();
+      } else {
+        setStatus('Error: ' + msg, 'error');
+      }
+      volData.style.display = 'none';
+    } finally {
+      fetchBtn.disabled = false;
+    }
+  }
+
+  function showCorsHelp() {
+    const help = document.createElement('div');
+    help.id = 'corsHelp';
+    help.style.cssText = 'margin-top:10px; padding:12px; background:rgba(255,77,109,0.1); border:1px solid rgba(255,77,109,0.3); border-radius:8px; font-size:12px; color:var(--text-dim); line-height:1.6;';
+    help.innerHTML = `
+      <div style="color:var(--red); font-weight:700; margin-bottom:6px;">⚠ Problema de CORS</div>
+      Si abriste este HTML con doble click (URL empieza con <code style="color:var(--accent)">file://</code>),
+      el navegador bloquea las APIs externas.<br><br>
+      <strong style="color:var(--text);">Soluciones:</strong><br>
+      <strong>1)</strong> Súbelo a un servicio como Netlify Drop (gratis, 30 seg): drag & drop el archivo en
+      <a href="https://app.netlify.com/drop" target="_blank" style="color:var(--accent)">app.netlify.com/drop</a><br>
+      <strong>2)</strong> Si tienes Python: en la terminal, en la carpeta del archivo, corre
+      <code style="color:var(--accent); background:var(--bg); padding:2px 6px; border-radius:4px;">python3 -m http.server 8000</code>
+      y abre <code style="color:var(--accent)">http://localhost:8000/calculadora_inversion.html</code><br>
+      <strong>3)</strong> Súbelo a GitHub Pages, Vercel, o cualquier hosting gratuito
+    `;
+    const existing = document.getElementById('corsHelp');
+    if (existing) existing.remove();
+    volStatus.parentElement.appendChild(help);
+  }
+
+  function renderVolData() {
+    if (!volState.price) return;
+    volData.style.display = 'block';
+
+    const { price, atr, change, changePct, multiplier, rrRatio, riskPct } = volState;
+
+    // Stats principales
+    document.getElementById('volPrice').textContent = '$' + price.toFixed(2);
+    const changeEl = document.getElementById('volChange');
+    const arrow = change >= 0 ? '▲' : '▼';
+    changeEl.textContent = `${arrow} ${change >= 0 ? '+' : ''}${change.toFixed(2)} (${changePct >= 0 ? '+' : ''}${changePct.toFixed(2)}%)`;
+    changeEl.className = 'vol-stat-sub ' + (change >= 0 ? 'up' : 'down');
+
+    document.getElementById('volAtr').textContent = '$' + atr.toFixed(2);
+    document.getElementById('volAtrPct').textContent = ((atr / price) * 100).toFixed(2) + '% del precio';
+
+    // Cálculos de SL / TP / Position
+    const slDistance = atr * multiplier;
+    const slPrice = price - slDistance;
+    const slPct = (-slDistance / price) * 100;
+
+    const tpDistance = slDistance * rrRatio;
+    const tpPrice = price + tpDistance;
+    const tpPct = (tpDistance / price) * 100;
+
+    const capital = +invSlider.value; // usa el monto de inversión actual
+    const riskAmount = capital * (riskPct / 100);
+    const shares = Math.floor(riskAmount / slDistance);
+    const positionValue = shares * price;
+
+    // Renderizado
+    document.getElementById('slFormula').textContent = `Precio − (ATR × ${multiplier})`;
+    document.getElementById('slPrice').textContent = '$' + slPrice.toFixed(2);
+    document.getElementById('slPct').textContent = slPct.toFixed(2) + '%';
+
+    document.getElementById('tpFormula').textContent = `Precio + (ATR × ${(multiplier * rrRatio).toFixed(1)})`;
+    document.getElementById('tpPrice').textContent = '$' + tpPrice.toFixed(2);
+    document.getElementById('tpPct').textContent = '+' + tpPct.toFixed(2) + '%';
+
+    document.getElementById('posFormula').textContent = `Riesgo: ${riskPct}% de $${capital.toLocaleString()} = $${riskAmount.toFixed(0)}`;
+    document.getElementById('posShares').textContent = shares.toLocaleString() + ' shares';
+    document.getElementById('posValue').textContent = '$' + positionValue.toLocaleString('en-US', {maximumFractionDigits: 0});
+  }
+
+  // Eventos de fetch
+  fetchBtn.addEventListener('click', () => {
+    const t = tickerInput.value.trim().toUpperCase();
+    if (!t) {
+      setStatus('Escribe un ticker (ej: NBIS)', 'error');
+      return;
+    }
+    fetchTickerData(t);
+  });
+
+  tickerInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') fetchBtn.click();
+  });
+
+  // Multiplicador ATR
+  document.querySelectorAll('[data-mult]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-mult]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      volState.multiplier = +btn.dataset.mult;
+      renderVolData();
+    });
+  });
+
+  // R:R
+  document.querySelectorAll('[data-rr]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-rr]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      volState.rrRatio = +btn.dataset.rr;
+      renderVolData();
+    });
+  });
+
+  // % de riesgo
+  document.querySelectorAll('[data-risk]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-risk]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      volState.riskPct = +btn.dataset.risk;
+      renderVolData();
+    });
+  });
+
+  // Aplicar a la calculadora de arriba
+  document.getElementById('applyVolBtn').addEventListener('click', () => {
+    if (!volState.price) return;
+    const slDistance = volState.atr * volState.multiplier;
+    const slPct = (-slDistance / volState.price) * 100;
+    const tpPct = (slDistance * volState.rrRatio / volState.price) * 100;
+
+    // Aplicar SL al slider
+    let slClamped = Math.max(+stopSlider.min, Math.min(+stopSlider.max, slPct));
+    stopSlider.value = slClamped.toFixed(1);
+
+    // Aplicar TP como % de ganancia esperada
+    let tpClamped = Math.max(+pctSlider.min, Math.min(+pctSlider.max, tpPct));
+    pctSlider.value = tpClamped.toFixed(1);
+
+    // Aplicar el position value como capital invertido si entra en el rango
+    const positionValue = Math.floor(+invSlider.value * (volState.riskPct / 100) / slDistance) * volState.price;
+    if (positionValue >= +invSlider.min && positionValue <= +invSlider.max) {
+      invSlider.value = Math.round(positionValue);
+    }
+
+    calculate();
+
+    // Feedback visual: scroll arriba suave
+    document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setStatus('Valores aplicados a la calculadora ✓', 'success');
+    setTimeout(() => setStatus('Datos cargados ✓', 'success'), 2000);
+  });
+
+  // Re-render cuando cambia el monto de inversión (afecta position size)
+  invSlider.addEventListener('input', () => {
+    if (volState.price) renderVolData();
+  });
+
+  calculate();
+</script>
+
+</body>
+</html>
