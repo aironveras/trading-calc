@@ -611,6 +611,18 @@
     margin-bottom: 14px;
   }
 
+  .no-targets-msg {
+    text-align: center;
+    padding: 18px 12px;
+    margin-bottom: 12px;
+    background: var(--bg-elev);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
   .analyst-target-main {
     background: linear-gradient(135deg, rgba(93, 169, 255, 0.08), transparent);
     border: 1px solid rgba(93, 169, 255, 0.2);
@@ -1487,39 +1499,45 @@
           <div class="analyst-count" id="analystCount">— analistas</div>
         </div>
 
-        <div class="analyst-targets">
-          <div class="analyst-target-main">
-            <div class="analyst-target-label">Promedio</div>
-            <div class="analyst-target-value" id="analystAvg">$—</div>
-            <div class="analyst-target-pct" id="analystAvgPct">—%</div>
+        <div class="analyst-targets-wrapper" id="analystTargetsWrapper" style="display:none;">
+          <div class="analyst-targets">
+            <div class="analyst-target-main">
+              <div class="analyst-target-label">Promedio</div>
+              <div class="analyst-target-value" id="analystAvg">$—</div>
+              <div class="analyst-target-pct" id="analystAvgPct">—%</div>
+            </div>
+            <div class="analyst-target-side">
+              <div class="analyst-side-row">
+                <span class="analyst-side-label">Alto</span>
+                <span class="analyst-side-value gain" id="analystHigh">$—</span>
+              </div>
+              <div class="analyst-side-row">
+                <span class="analyst-side-label">Mediano</span>
+                <span class="analyst-side-value" id="analystMedian">$—</span>
+              </div>
+              <div class="analyst-side-row">
+                <span class="analyst-side-label">Bajo</span>
+                <span class="analyst-side-value loss" id="analystLow">$—</span>
+              </div>
+            </div>
           </div>
-          <div class="analyst-target-side">
-            <div class="analyst-side-row">
-              <span class="analyst-side-label">Alto</span>
-              <span class="analyst-side-value gain" id="analystHigh">$—</span>
+
+          <!-- Visual del rango -->
+          <div class="analyst-range-visual">
+            <div class="analyst-range-track">
+              <div class="analyst-range-fill" id="analystRangeFill"></div>
+              <div class="analyst-range-marker current" id="analystCurrentMarker" title="Precio actual"></div>
+              <div class="analyst-range-marker target" id="analystAvgMarker" title="Target promedio"></div>
             </div>
-            <div class="analyst-side-row">
-              <span class="analyst-side-label">Mediano</span>
-              <span class="analyst-side-value" id="analystMedian">$—</span>
-            </div>
-            <div class="analyst-side-row">
-              <span class="analyst-side-label">Bajo</span>
-              <span class="analyst-side-value loss" id="analystLow">$—</span>
+            <div class="analyst-range-labels">
+              <span id="analystRangeLow">$—</span>
+              <span id="analystRangeHigh">$—</span>
             </div>
           </div>
         </div>
 
-        <!-- Visual del rango -->
-        <div class="analyst-range-visual">
-          <div class="analyst-range-track">
-            <div class="analyst-range-fill" id="analystRangeFill"></div>
-            <div class="analyst-range-marker current" id="analystCurrentMarker" title="Precio actual"></div>
-            <div class="analyst-range-marker target" id="analystAvgMarker" title="Target promedio"></div>
-          </div>
-          <div class="analyst-range-labels">
-            <span id="analystRangeLow">$—</span>
-            <span id="analystRangeHigh">$—</span>
-          </div>
+        <div class="no-targets-msg" id="noTargetsMsg" style="display:none;">
+          <span style="opacity:0.6;">⊘</span> Sin price targets disponibles para este ticker
         </div>
 
         <!-- Recomendación -->
@@ -2571,13 +2589,30 @@
 
       let hasAnalystData = false;
       let hasShortTermData = false;
+      let hasPriceTarget = false;
 
       if (targetRes.ok) {
         const target = await targetRes.json();
-        if (target && (target.targetMean || target.targetMedian)) {
+        // Verificar que tenga al menos un valor real (no solo objeto vacío)
+        const validTarget = target && (
+          (target.targetMean && target.targetMean > 0) ||
+          (target.targetMedian && target.targetMedian > 0) ||
+          (target.targetHigh && target.targetHigh > 0)
+        );
+        if (validTarget) {
           renderAnalystTargets(target, currentPrice);
+          document.getElementById('analystTargetsWrapper').style.display = 'block';
+          document.getElementById('noTargetsMsg').style.display = 'none';
           hasAnalystData = true;
+          hasPriceTarget = true;
+        } else {
+          // Sin price target: ocultar wrapper, mostrar mensaje
+          document.getElementById('analystTargetsWrapper').style.display = 'none';
+          document.getElementById('noTargetsMsg').style.display = 'block';
         }
+      } else {
+        document.getElementById('analystTargetsWrapper').style.display = 'none';
+        document.getElementById('noTargetsMsg').style.display = 'block';
       }
 
       if (recRes.ok) {
@@ -2589,6 +2624,14 @@
         } else {
           document.getElementById('recommendationBlock').style.display = 'none';
         }
+      }
+
+      // Si hay recommendations pero no price target, igual mostramos el bloque (con el mensaje)
+      // Solo mostramos el mensaje "Sin targets" si efectivamente hay otro contenido (recs)
+      if (!hasPriceTarget && hasAnalystData) {
+        document.getElementById('noTargetsMsg').style.display = 'block';
+      } else if (!hasAnalystData) {
+        document.getElementById('noTargetsMsg').style.display = 'none';
       }
 
       // Earnings
@@ -2679,6 +2722,12 @@
     const s = rec.sell || 0;
     const ss = rec.strongSell || 0;
     const total = sb + b + h + s + ss;
+
+    // Actualizar contador en el header del bloque analyst si no había datos de price target
+    const countEl = document.getElementById('analystCount');
+    if (countEl && (!countEl.textContent || countEl.textContent === '— analistas' || countEl.textContent === '')) {
+      countEl.textContent = total + ' analistas';
+    }
 
     document.getElementById('recStrongBuyCount').textContent = sb;
     document.getElementById('recBuyCount').textContent = b;
