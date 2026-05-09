@@ -572,6 +572,417 @@
   .vol-stat-sub.up { color: var(--green); }
   .vol-stat-sub.down { color: var(--red); }
 
+  /* ─── Analyst Price Target Block ─── */
+  .analyst-block {
+    margin: 14px 0 18px;
+    padding: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .analyst-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .analyst-title {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .analyst-count {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .analyst-targets {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .analyst-target-main {
+    background: linear-gradient(135deg, rgba(93, 169, 255, 0.08), transparent);
+    border: 1px solid rgba(93, 169, 255, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .analyst-target-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .analyst-target-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .analyst-target-pct {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+  }
+  .analyst-target-pct.up { color: var(--green); }
+  .analyst-target-pct.down { color: var(--red); }
+
+  .analyst-target-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .analyst-side-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .analyst-side-row:last-child { border-bottom: none; }
+
+  .analyst-side-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .analyst-side-value {
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .analyst-side-value.gain { color: var(--green); }
+  .analyst-side-value.loss { color: var(--red); }
+
+  /* Visual range */
+  .analyst-range-visual {
+    margin-bottom: 14px;
+  }
+
+  .analyst-range-track {
+    position: relative;
+    height: 6px;
+    background: linear-gradient(90deg, rgba(255,77,109,0.3), rgba(139,149,165,0.3), rgba(0,214,143,0.3));
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+
+  .analyst-range-fill {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    opacity: 0.4;
+  }
+
+  .analyst-range-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--bg-card);
+    z-index: 2;
+  }
+
+  .analyst-range-marker.current {
+    background: var(--text);
+    box-shadow: 0 0 0 1px var(--text-dim);
+  }
+
+  .analyst-range-marker.target {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .analyst-range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  /* Recomendación */
+  .recommendation-block {
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .rec-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .rec-header-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .rec-consensus {
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .rec-consensus.strong-buy { background: rgba(0,214,143,0.2); color: var(--green); }
+  .rec-consensus.buy { background: rgba(0,214,143,0.12); color: var(--green); }
+  .rec-consensus.hold { background: rgba(139,149,165,0.15); color: var(--text-dim); }
+  .rec-consensus.sell { background: rgba(255,77,109,0.12); color: var(--red); }
+  .rec-consensus.strong-sell { background: rgba(255,77,109,0.2); color: var(--red); }
+
+  .rec-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .rec-bar-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 24px;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rec-bar-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .rec-bar-bg {
+    height: 6px;
+    background: var(--bg-elev);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .rec-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .rec-bar-fill.strong-buy { background: var(--green); }
+  .rec-bar-fill.buy { background: rgba(0,214,143,0.6); }
+  .rec-bar-fill.hold { background: var(--text-dim); }
+  .rec-bar-fill.sell { background: rgba(255,77,109,0.6); }
+  .rec-bar-fill.strong-sell { background: var(--red); }
+
+  .rec-bar-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ─── Short-term analysis block ─── */
+  .shortterm-block {
+    margin: 14px 0 18px;
+    padding: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .shortterm-section {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .shortterm-section:last-child { border-bottom: none; padding-bottom: 0; }
+  .shortterm-section:first-of-type { padding-top: 0; }
+
+  .shortterm-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .shortterm-section-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.03em;
+  }
+
+  .shortterm-section-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  /* Earnings */
+  .earnings-countdown {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255, 181, 71, 0.15);
+    color: var(--amber);
+    letter-spacing: 0.03em;
+  }
+  .earnings-countdown.urgent {
+    background: rgba(255, 77, 109, 0.15);
+    color: var(--red);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.65; }
+  }
+
+  .earnings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .earnings-item {
+    background: var(--bg-elev);
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+
+  .earnings-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .earnings-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Niveles técnicos */
+  .levels-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .level-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 6px;
+    background: var(--bg-elev);
+    border-left: 3px solid var(--text-muted);
+  }
+  .level-row.resistance { border-left-color: var(--red); }
+  .level-row.pivot { border-left-color: var(--accent); background: rgba(93, 169, 255, 0.06); }
+  .level-row.support { border-left-color: var(--green); }
+
+  .level-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+  }
+
+  .level-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .level-row.resistance .level-value { color: var(--red); }
+  .level-row.pivot .level-value { color: var(--accent); }
+  .level-row.support .level-value { color: var(--green); }
+
+  .level-pct {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    min-width: 50px;
+    text-align: right;
+  }
+
+  /* Technical Signal */
+  .signal-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px;
+    background: var(--bg-elev);
+    border-radius: 8px;
+    gap: 6px;
+  }
+
+  .signal-main { text-align: center; }
+
+  .signal-verdict {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    margin-bottom: 2px;
+  }
+  .signal-verdict.buy { color: var(--green); text-shadow: 0 0 16px rgba(0, 214, 143, 0.4); }
+  .signal-verdict.sell { color: var(--red); text-shadow: 0 0 16px rgba(255, 77, 109, 0.4); }
+  .signal-verdict.hold { color: var(--text-dim); }
+
+  .signal-confidence {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .signal-detail {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  .signal-detail span { color: var(--text); font-weight: 600; }
+
   .multiplier-row, .rr-row, .risk-pct-row {
     display: flex;
     align-items: center;
@@ -1060,6 +1471,181 @@
           <div class="vol-stat-label">ATR (14d)</div>
           <div class="vol-stat-value" id="volAtr">$—</div>
           <div class="vol-stat-sub" id="volAtrPct">— vol</div>
+        </div>
+      </div>
+
+      <!-- Price Target de analistas -->
+      <div class="analyst-block" id="analystBlock" style="display:none;">
+        <div class="analyst-header">
+          <div class="analyst-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:4px;">
+              <path d="m22 12-4-4-4 8-4-4-4 4"/>
+              <path d="M16 8h6v6"/>
+            </svg>
+            Price Target de Analistas
+          </div>
+          <div class="analyst-count" id="analystCount">— analistas</div>
+        </div>
+
+        <div class="analyst-targets">
+          <div class="analyst-target-main">
+            <div class="analyst-target-label">Promedio</div>
+            <div class="analyst-target-value" id="analystAvg">$—</div>
+            <div class="analyst-target-pct" id="analystAvgPct">—%</div>
+          </div>
+          <div class="analyst-target-side">
+            <div class="analyst-side-row">
+              <span class="analyst-side-label">Alto</span>
+              <span class="analyst-side-value gain" id="analystHigh">$—</span>
+            </div>
+            <div class="analyst-side-row">
+              <span class="analyst-side-label">Mediano</span>
+              <span class="analyst-side-value" id="analystMedian">$—</span>
+            </div>
+            <div class="analyst-side-row">
+              <span class="analyst-side-label">Bajo</span>
+              <span class="analyst-side-value loss" id="analystLow">$—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual del rango -->
+        <div class="analyst-range-visual">
+          <div class="analyst-range-track">
+            <div class="analyst-range-fill" id="analystRangeFill"></div>
+            <div class="analyst-range-marker current" id="analystCurrentMarker" title="Precio actual"></div>
+            <div class="analyst-range-marker target" id="analystAvgMarker" title="Target promedio"></div>
+          </div>
+          <div class="analyst-range-labels">
+            <span id="analystRangeLow">$—</span>
+            <span id="analystRangeHigh">$—</span>
+          </div>
+        </div>
+
+        <!-- Recomendación -->
+        <div class="recommendation-block" id="recommendationBlock" style="display:none;">
+          <div class="rec-header-row">
+            <span class="rec-header-label">Consenso de Analistas</span>
+            <span class="rec-consensus" id="recConsensus">—</span>
+          </div>
+          <div class="rec-bars">
+            <div class="rec-bar-row">
+              <span class="rec-bar-label">Strong Buy</span>
+              <div class="rec-bar-bg"><div class="rec-bar-fill strong-buy" id="recStrongBuy"></div></div>
+              <span class="rec-bar-count" id="recStrongBuyCount">0</span>
+            </div>
+            <div class="rec-bar-row">
+              <span class="rec-bar-label">Buy</span>
+              <div class="rec-bar-bg"><div class="rec-bar-fill buy" id="recBuy"></div></div>
+              <span class="rec-bar-count" id="recBuyCount">0</span>
+            </div>
+            <div class="rec-bar-row">
+              <span class="rec-bar-label">Hold</span>
+              <div class="rec-bar-bg"><div class="rec-bar-fill hold" id="recHold"></div></div>
+              <span class="rec-bar-count" id="recHoldCount">0</span>
+            </div>
+            <div class="rec-bar-row">
+              <span class="rec-bar-label">Sell</span>
+              <div class="rec-bar-bg"><div class="rec-bar-fill sell" id="recSell"></div></div>
+              <span class="rec-bar-count" id="recSellCount">0</span>
+            </div>
+            <div class="rec-bar-row">
+              <span class="rec-bar-label">Strong Sell</span>
+              <div class="rec-bar-bg"><div class="rec-bar-fill strong-sell" id="recStrongSell"></div></div>
+              <span class="rec-bar-count" id="recStrongSellCount">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Análisis a Corto Plazo -->
+      <div class="shortterm-block" id="shortTermBlock" style="display:none;">
+        <div class="analyst-header">
+          <div class="analyst-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:4px;">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Análisis a Corto Plazo
+          </div>
+        </div>
+
+        <!-- Próximo Earnings -->
+        <div class="shortterm-section" id="earningsSection" style="display:none;">
+          <div class="shortterm-section-header">
+            <span class="shortterm-section-tag">📅 Próximo Earnings</span>
+            <span class="earnings-countdown" id="earningsCountdown">—</span>
+          </div>
+          <div class="earnings-grid">
+            <div class="earnings-item">
+              <div class="earnings-label">Fecha</div>
+              <div class="earnings-value" id="earningsDate">—</div>
+            </div>
+            <div class="earnings-item">
+              <div class="earnings-label">EPS Esperado</div>
+              <div class="earnings-value" id="earningsEps">—</div>
+            </div>
+            <div class="earnings-item">
+              <div class="earnings-label">Revenue Esperado</div>
+              <div class="earnings-value" id="earningsRevenue">—</div>
+            </div>
+            <div class="earnings-item">
+              <div class="earnings-label">Hora</div>
+              <div class="earnings-value" id="earningsTime">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Niveles Técnicos -->
+        <div class="shortterm-section" id="levelsSection">
+          <div class="shortterm-section-header">
+            <span class="shortterm-section-tag">📐 Niveles Técnicos</span>
+            <span class="shortterm-section-sub">Pivot points · Swing</span>
+          </div>
+          <div class="levels-grid">
+            <div class="level-row resistance">
+              <span class="level-label">R2 Resistencia</span>
+              <span class="level-value" id="levelR2">$—</span>
+              <span class="level-pct" id="levelR2Pct">—</span>
+            </div>
+            <div class="level-row resistance">
+              <span class="level-label">R1 Resistencia</span>
+              <span class="level-value" id="levelR1">$—</span>
+              <span class="level-pct" id="levelR1Pct">—</span>
+            </div>
+            <div class="level-row pivot">
+              <span class="level-label">Pivot Point</span>
+              <span class="level-value" id="levelPivot">$—</span>
+              <span class="level-pct" id="levelPivotPct">—</span>
+            </div>
+            <div class="level-row support">
+              <span class="level-label">S1 Soporte</span>
+              <span class="level-value" id="levelS1">$—</span>
+              <span class="level-pct" id="levelS1Pct">—</span>
+            </div>
+            <div class="level-row support">
+              <span class="level-label">S2 Soporte</span>
+              <span class="level-value" id="levelS2">$—</span>
+              <span class="level-pct" id="levelS2Pct">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Signal -->
+        <div class="shortterm-section" id="signalSection" style="display:none;">
+          <div class="shortterm-section-header">
+            <span class="shortterm-section-tag">🎯 Technical Signal</span>
+            <span class="shortterm-section-sub" id="signalDate">—</span>
+          </div>
+          <div class="signal-display" id="signalDisplay">
+            <div class="signal-main">
+              <div class="signal-verdict" id="signalVerdict">HOLD</div>
+              <div class="signal-confidence" id="signalConfidence">— confidence</div>
+            </div>
+            <div class="signal-detail" id="signalDetail">
+              ADX: <span id="signalAdx">—</span> · Trend: <span id="signalTrend">—</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1756,9 +2342,15 @@
       volState.atr = atr;
       volState.change = change;
       volState.changePct = changePct;
+      volState.dayHigh = dayHigh;
+      volState.dayLow = dayLow;
+      volState.prevClose = prevClose;
 
       renderVolData();
       calculate(); // re-render para mostrar precios target en SL y %
+
+      // Cargar datos de analistas (en paralelo, no bloquea)
+      fetchAnalystData(ticker, currentPrice);
     } catch (err) {
       let msg = err.message;
       if (msg === 'Failed to fetch') {
@@ -1947,6 +2539,317 @@
   invSlider.addEventListener('input', () => {
     // El monto de inversión es independiente del capital total ahora
   });
+
+  // ────────────────────────────────────────────────────────
+  // ANALYST PRICE TARGET + RECOMMENDATIONS
+  // ────────────────────────────────────────────────────────
+  async function fetchAnalystData(ticker, currentPrice) {
+    if (!apiKey || !ticker) return;
+
+    const analystBlock = document.getElementById('analystBlock');
+    const shortTermBlock = document.getElementById('shortTermBlock');
+
+    try {
+      const targetUrl = `${FINNHUB_BASE}/stock/price-target?symbol=${ticker}&token=${apiKey}`;
+      const recUrl = `${FINNHUB_BASE}/stock/recommendation?symbol=${ticker}&token=${apiKey}`;
+
+      // Earnings calendar: próximos 90 días
+      const today = new Date();
+      const futureDate = new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000);
+      const fmt = (d) => d.toISOString().split('T')[0];
+      const earningsUrl = `${FINNHUB_BASE}/calendar/earnings?from=${fmt(today)}&to=${fmt(futureDate)}&symbol=${ticker}&token=${apiKey}`;
+
+      // Technical aggregate signal
+      const signalUrl = `${FINNHUB_BASE}/scan/technical-indicator?symbol=${ticker}&resolution=D&token=${apiKey}`;
+
+      const [targetRes, recRes, earningsRes, signalRes] = await Promise.all([
+        fetch(targetUrl),
+        fetch(recUrl),
+        fetch(earningsUrl),
+        fetch(signalUrl)
+      ]);
+
+      let hasAnalystData = false;
+      let hasShortTermData = false;
+
+      if (targetRes.ok) {
+        const target = await targetRes.json();
+        if (target && (target.targetMean || target.targetMedian)) {
+          renderAnalystTargets(target, currentPrice);
+          hasAnalystData = true;
+        }
+      }
+
+      if (recRes.ok) {
+        const recs = await recRes.json();
+        if (Array.isArray(recs) && recs.length > 0) {
+          renderRecommendations(recs[0]);
+          document.getElementById('recommendationBlock').style.display = 'block';
+          hasAnalystData = true;
+        } else {
+          document.getElementById('recommendationBlock').style.display = 'none';
+        }
+      }
+
+      // Earnings
+      if (earningsRes.ok) {
+        const earningsData = await earningsRes.json();
+        if (earningsData && earningsData.earningsCalendar && earningsData.earningsCalendar.length > 0) {
+          renderEarnings(earningsData.earningsCalendar[0]);
+          document.getElementById('earningsSection').style.display = 'block';
+          hasShortTermData = true;
+        } else {
+          document.getElementById('earningsSection').style.display = 'none';
+        }
+      }
+
+      // Technical levels — siempre se calculan con datos del quote
+      renderTechnicalLevels(currentPrice);
+      hasShortTermData = true;
+
+      // Technical signal
+      if (signalRes.ok) {
+        const signal = await signalRes.json();
+        if (signal && signal.technicalAnalysis) {
+          renderTechnicalSignal(signal);
+          document.getElementById('signalSection').style.display = 'block';
+          hasShortTermData = true;
+        } else {
+          document.getElementById('signalSection').style.display = 'none';
+        }
+      }
+
+      analystBlock.style.display = hasAnalystData ? 'block' : 'none';
+      shortTermBlock.style.display = hasShortTermData ? 'block' : 'none';
+    } catch (err) {
+      console.error('Analyst data error:', err);
+      analystBlock.style.display = 'none';
+      shortTermBlock.style.display = 'none';
+    }
+  }
+
+  function renderAnalystTargets(target, currentPrice) {
+    const high = target.targetHigh || 0;
+    const low = target.targetLow || 0;
+    const mean = target.targetMean || 0;
+    const median = target.targetMedian || 0;
+
+    document.getElementById('analystAvg').textContent = '$' + mean.toFixed(2);
+    document.getElementById('analystHigh').textContent = '$' + high.toFixed(2);
+    document.getElementById('analystLow').textContent = '$' + low.toFixed(2);
+    document.getElementById('analystMedian').textContent = '$' + median.toFixed(2);
+
+    const pctVsCurrent = currentPrice > 0 ? ((mean - currentPrice) / currentPrice) * 100 : 0;
+    const pctEl = document.getElementById('analystAvgPct');
+    pctEl.textContent = (pctVsCurrent >= 0 ? '▲ +' : '▼ ') + pctVsCurrent.toFixed(2) + '% vs actual';
+    pctEl.classList.remove('up', 'down');
+    pctEl.classList.add(pctVsCurrent >= 0 ? 'up' : 'down');
+
+    const countEl = document.getElementById('analystCount');
+    if (target.lastUpdated) {
+      const date = new Date(target.lastUpdated);
+      countEl.textContent = 'Actualizado: ' + date.toLocaleDateString('es-DO', { month: 'short', day: 'numeric', year: 'numeric' });
+    } else {
+      countEl.textContent = '';
+    }
+
+    if (high > low) {
+      const range = high - low;
+      const currentPos = Math.max(0, Math.min(100, ((currentPrice - low) / range) * 100));
+      const targetPos = Math.max(0, Math.min(100, ((mean - low) / range) * 100));
+
+      document.getElementById('analystCurrentMarker').style.left = currentPos + '%';
+      document.getElementById('analystAvgMarker').style.left = targetPos + '%';
+
+      const fillStart = Math.min(currentPos, targetPos);
+      const fillEnd = Math.max(currentPos, targetPos);
+      const fill = document.getElementById('analystRangeFill');
+      fill.style.left = fillStart + '%';
+      fill.style.width = (fillEnd - fillStart) + '%';
+    }
+
+    document.getElementById('analystRangeLow').textContent = '$' + low.toFixed(2);
+    document.getElementById('analystRangeHigh').textContent = '$' + high.toFixed(2);
+  }
+
+  function renderRecommendations(rec) {
+    const sb = rec.strongBuy || 0;
+    const b = rec.buy || 0;
+    const h = rec.hold || 0;
+    const s = rec.sell || 0;
+    const ss = rec.strongSell || 0;
+    const total = sb + b + h + s + ss;
+
+    document.getElementById('recStrongBuyCount').textContent = sb;
+    document.getElementById('recBuyCount').textContent = b;
+    document.getElementById('recHoldCount').textContent = h;
+    document.getElementById('recSellCount').textContent = s;
+    document.getElementById('recStrongSellCount').textContent = ss;
+
+    if (total > 0) {
+      document.getElementById('recStrongBuy').style.width = (sb / total * 100) + '%';
+      document.getElementById('recBuy').style.width = (b / total * 100) + '%';
+      document.getElementById('recHold').style.width = (h / total * 100) + '%';
+      document.getElementById('recSell').style.width = (s / total * 100) + '%';
+      document.getElementById('recStrongSell').style.width = (ss / total * 100) + '%';
+    }
+
+    const score = total > 0 ? (sb*1 + b*2 + h*3 + s*4 + ss*5) / total : 3;
+    const consensusEl = document.getElementById('recConsensus');
+    consensusEl.classList.remove('strong-buy', 'buy', 'hold', 'sell', 'strong-sell');
+
+    let label, cls;
+    if (score < 1.75) { label = 'Strong Buy'; cls = 'strong-buy'; }
+    else if (score < 2.5) { label = 'Buy'; cls = 'buy'; }
+    else if (score < 3.5) { label = 'Hold'; cls = 'hold'; }
+    else if (score < 4.25) { label = 'Sell'; cls = 'sell'; }
+    else { label = 'Strong Sell'; cls = 'strong-sell'; }
+
+    consensusEl.textContent = label + ' (' + total + ')';
+    consensusEl.classList.add(cls);
+  }
+
+  // ── Render Earnings ──
+  function renderEarnings(earnings) {
+    const date = earnings.date;
+    const eps = earnings.epsEstimate;
+    const revenue = earnings.revenueEstimate;
+    const hour = earnings.hour; // 'bmo' = before market open, 'amc' = after market close
+
+    document.getElementById('earningsDate').textContent = new Date(date + 'T00:00:00').toLocaleDateString('es-DO', {
+      day: '2-digit', month: 'short', year: 'numeric'
+    });
+
+    document.getElementById('earningsEps').textContent = eps !== null && eps !== undefined ? '$' + eps.toFixed(2) : '—';
+
+    if (revenue) {
+      const revB = revenue / 1e9;
+      const revM = revenue / 1e6;
+      document.getElementById('earningsRevenue').textContent = revB >= 1 ? '$' + revB.toFixed(2) + 'B' : '$' + revM.toFixed(0) + 'M';
+    } else {
+      document.getElementById('earningsRevenue').textContent = '—';
+    }
+
+    const hourMap = { 'bmo': 'Pre-market', 'amc': 'After-hours', 'dmh': 'Mid-day' };
+    document.getElementById('earningsTime').textContent = hourMap[hour] || hour || '—';
+
+    // Countdown
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const earningsDate = new Date(date + 'T00:00:00');
+    const daysUntil = Math.ceil((earningsDate - today) / (1000 * 60 * 60 * 24));
+    const countdownEl = document.getElementById('earningsCountdown');
+
+    if (daysUntil === 0) {
+      countdownEl.textContent = '¡HOY!';
+      countdownEl.classList.add('urgent');
+    } else if (daysUntil === 1) {
+      countdownEl.textContent = 'MAÑANA';
+      countdownEl.classList.add('urgent');
+    } else if (daysUntil <= 7) {
+      countdownEl.textContent = 'En ' + daysUntil + ' días';
+      countdownEl.classList.add('urgent');
+    } else {
+      countdownEl.textContent = 'En ' + daysUntil + ' días';
+      countdownEl.classList.remove('urgent');
+    }
+  }
+
+  // ── Render Niveles Técnicos (Pivot Points clásicos) ──
+  function renderTechnicalLevels(currentPrice) {
+    // Necesitamos high, low, close del día anterior
+    // Usamos los datos del quote actual (ya disponibles via fetch)
+    // Fórmula clásica de Pivot Points (Floor Trader's Pivot)
+    // PP = (H + L + C) / 3
+    // R1 = 2*PP - L
+    // R2 = PP + (H - L)
+    // S1 = 2*PP - H
+    // S2 = PP - (H - L)
+
+    if (!volState.dayHigh || !volState.dayLow) {
+      // Aproximación: usar ATR para estimar niveles
+      const atr = volState.atr || (currentPrice * 0.02);
+      const pp = currentPrice;
+      const r1 = currentPrice + atr * 0.5;
+      const r2 = currentPrice + atr;
+      const s1 = currentPrice - atr * 0.5;
+      const s2 = currentPrice - atr;
+      setLevels(currentPrice, pp, r1, r2, s1, s2);
+      return;
+    }
+
+    const h = volState.dayHigh;
+    const l = volState.dayLow;
+    const c = volState.prevClose || currentPrice;
+
+    const pp = (h + l + c) / 3;
+    const r1 = 2 * pp - l;
+    const r2 = pp + (h - l);
+    const s1 = 2 * pp - h;
+    const s2 = pp - (h - l);
+
+    setLevels(currentPrice, pp, r1, r2, s1, s2);
+  }
+
+  function setLevels(currentPrice, pp, r1, r2, s1, s2) {
+    const fmt = (price) => '$' + price.toFixed(2);
+    const pct = (price) => {
+      const p = ((price - currentPrice) / currentPrice) * 100;
+      return (p >= 0 ? '+' : '') + p.toFixed(2) + '%';
+    };
+
+    document.getElementById('levelR2').textContent = fmt(r2);
+    document.getElementById('levelR2Pct').textContent = pct(r2);
+    document.getElementById('levelR1').textContent = fmt(r1);
+    document.getElementById('levelR1Pct').textContent = pct(r1);
+    document.getElementById('levelPivot').textContent = fmt(pp);
+    document.getElementById('levelPivotPct').textContent = pct(pp);
+    document.getElementById('levelS1').textContent = fmt(s1);
+    document.getElementById('levelS1Pct').textContent = pct(s1);
+    document.getElementById('levelS2').textContent = fmt(s2);
+    document.getElementById('levelS2Pct').textContent = pct(s2);
+  }
+
+  // ── Render Technical Signal ──
+  function renderTechnicalSignal(signal) {
+    const ta = signal.technicalAnalysis || {};
+    const trend = signal.trend || {};
+
+    const count = ta.count || {};
+    const buy = count.buy || 0;
+    const sell = count.sell || 0;
+    const neutral = count.neutral || 0;
+    const total = buy + sell + neutral;
+
+    const verdict = (ta.signal || 'neutral').toLowerCase();
+    const verdictEl = document.getElementById('signalVerdict');
+    verdictEl.classList.remove('buy', 'sell', 'hold');
+
+    let label = 'HOLD';
+    let cls = 'hold';
+    if (verdict === 'buy' || verdict === 'strong_buy') {
+      label = verdict === 'strong_buy' ? 'STRONG BUY' : 'BUY';
+      cls = 'buy';
+    } else if (verdict === 'sell' || verdict === 'strong_sell') {
+      label = verdict === 'strong_sell' ? 'STRONG SELL' : 'SELL';
+      cls = 'sell';
+    }
+
+    verdictEl.textContent = label;
+    verdictEl.classList.add(cls);
+
+    if (total > 0) {
+      const dominantPct = Math.round((Math.max(buy, sell, neutral) / total) * 100);
+      document.getElementById('signalConfidence').textContent = dominantPct + '% confidence · ' + total + ' indicators';
+    } else {
+      document.getElementById('signalConfidence').textContent = '—';
+    }
+
+    document.getElementById('signalAdx').textContent = trend.adx ? trend.adx.toFixed(1) : '—';
+    document.getElementById('signalTrend').textContent = trend.trending ? 'Strong' : 'Weak/Sideways';
+
+    document.getElementById('signalDate').textContent = 'Daily · ' + new Date().toLocaleDateString('es-DO', { day: '2-digit', month: 'short' });
+  }
 
   // ────────────────────────────────────────────────────────
   // NEWS PANEL (Finnhub /company-news)
