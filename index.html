@@ -767,9 +767,256 @@
     .slider-value { font-size: 22px; width: 110px; }
     .result-meta { gap: 16px; }
   }
+
+  /* ─── Floating news button + panel ─── */
+  .news-fab {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #4a96e8);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(93, 169, 255, 0.4), 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 100;
+    transition: all 0.2s ease;
+    border: none;
+  }
+  .news-fab:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(93, 169, 255, 0.5); }
+  .news-fab:active { transform: translateY(0); }
+
+  .news-fab-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--red);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg);
+  }
+
+  .news-panel {
+    position: fixed;
+    bottom: 96px;
+    right: 28px;
+    width: 380px;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 140px);
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: panelSlideIn 0.2s ease;
+  }
+  @keyframes panelSlideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .news-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .news-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .news-subtitle {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .news-actions { display: flex; gap: 6px; }
+
+  .news-action-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .news-action-btn:hover { color: var(--text); border-color: var(--border-strong); background: var(--bg-elev); }
+  .news-action-btn.spinning svg { animation: spin 0.8s linear; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  .news-status {
+    padding: 10px 18px;
+    font-size: 11px;
+    color: var(--text-muted);
+    min-height: 0;
+  }
+  .news-status.loading { color: var(--accent); }
+  .news-status.error { color: var(--red); }
+  .news-status:empty { display: none; }
+
+  .news-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 18px 14px;
+  }
+
+  .news-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .news-item:last-child { border-bottom: none; }
+  .news-item:hover { opacity: 0.85; }
+
+  .news-item-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .news-item-source { color: var(--accent); }
+
+  .news-item-headline {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .news-item-summary {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .news-item-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .news-item-link:hover { text-decoration: underline; }
+
+  .news-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .news-refresh-info { color: var(--accent); font-weight: 600; }
+
+  .news-empty {
+    padding: 30px 18px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 520px) {
+    .news-panel {
+      right: 12px;
+      left: 12px;
+      width: auto;
+      bottom: 88px;
+    }
+    .news-fab {
+      bottom: 20px;
+      right: 20px;
+    }
+  }
 </style>
 </head>
 <body>
+
+<!-- News floating button + panel -->
+<div class="news-fab" id="newsFab" style="display:none;" title="Últimas noticias">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+    <path d="M18 14h-8"/>
+    <path d="M15 18h-5"/>
+    <path d="M10 6h8v4h-8V6Z"/>
+  </svg>
+  <span class="news-fab-badge" id="newsFabBadge" style="display:none;">2</span>
+</div>
+
+<div class="news-panel" id="newsPanel" style="display:none;">
+  <div class="news-header">
+    <div>
+      <div class="news-title">Últimas Noticias</div>
+      <div class="news-subtitle" id="newsTickerLabel">—</div>
+    </div>
+    <div class="news-actions">
+      <button class="news-action-btn" id="newsRefreshBtn" title="Refrescar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+          <path d="M21 3v5h-5"/>
+          <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+          <path d="M3 21v-5h5"/>
+        </svg>
+      </button>
+      <button class="news-action-btn" id="newsCloseBtn" title="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="news-status" id="newsStatus"></div>
+  <div class="news-list" id="newsList"></div>
+  <div class="news-footer">
+    <span id="newsLastUpdate">—</span>
+    <span class="news-refresh-info">Auto-refresh: 5 min</span>
+  </div>
+</div>
 
 <div class="container">
   <header class="header">
@@ -777,32 +1024,6 @@
     <h1>Calculadora de <em>Inversión</em></h1>
   </header>
 
-  <!-- Resultado -->
-  <div class="result-card" id="resultCard">
-    <div class="result-label">
-      <span class="status-dot"></span>
-      <span id="resultLabel">Total Resultante</span>
-    </div>
-    <div class="result-total" id="totalDisplay">$10,000.00</div>
-    <div class="result-meta">
-      <div class="meta-item">
-        <div class="meta-label">P/L Absoluto</div>
-        <div class="meta-value" id="pnlAbs">$0.00</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">P/L Porcentaje</div>
-        <div class="meta-value" id="pnlPct">0.00%</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">ROI Multiplicador</div>
-        <div class="meta-value" id="roiMult">1.00×</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Riesgo / Recompensa</div>
-        <div class="meta-value" id="rrRatio">— : —</div>
-      </div>
-    </div>
-  </div>
 
   <!-- Volatility-based Stop Loss recommendation -->
   <div class="slider-card vol-card" id="volCard">
@@ -919,6 +1140,83 @@
     </div>
   </div>
 
+
+
+
+  <!-- Inversión -->
+  <div class="slider-card" id="invCard">
+    <div class="slider-header">
+      <div class="slider-title">Monto de Inversión</div>
+      <div class="slider-value-wrap">
+        <span class="slider-value-prefix">$</span>
+        <input type="text" class="slider-value" id="invValue" value="10,000">
+      </div>
+    </div>
+    <div class="slider-track-wrap">
+      <div class="track-bg"></div>
+      <div class="track-fill" id="invFill"></div>
+      <input type="range" id="invSlider" min="100" max="100000" step="100" value="10000">
+    </div>
+    <div class="range-labels">
+      <span>$100</span>
+      <span>$100,000</span>
+    </div>
+    <div class="presets">
+      <button class="preset-btn" data-inv="500">$500</button>
+      <button class="preset-btn" data-inv="1000">$1K</button>
+      <button class="preset-btn" data-inv="5000">$5K</button>
+      <button class="preset-btn" data-inv="10000">$10K</button>
+      <button class="preset-btn" data-inv="25000">$25K</button>
+      <button class="preset-btn" data-inv="50000">$50K</button>
+    </div>
+    <div class="stop-summary" id="invSharesRow" style="display:none;">
+      <div class="stop-row">
+        <span class="stop-label">Cantidad de acciones</span>
+        <span class="stop-target-price" style="color: var(--accent);" id="invShares">— shares</span>
+      </div>
+    </div>
+  </div>
+  <!-- Porcentaje -->
+  <div class="slider-card pct" id="pctCard">
+    <div class="slider-header">
+      <div class="slider-title">Ganancia / Pérdida</div>
+      <div class="slider-value-wrap">
+        <input type="text" class="slider-value" id="pctValue" value="0.00">
+        <span class="slider-value-suffix" id="pctSuffix">%</span>
+      </div>
+    </div>
+    <div class="slider-track-wrap">
+      <div class="track-bg"></div>
+      <div class="track-fill" id="pctFill"></div>
+      <div class="center-mark" style="left: 50%;"></div>
+      <input type="range" id="pctSlider" min="-100" max="100" step="0.5" value="10">
+    </div>
+    <div class="range-labels">
+      <span>−100%</span>
+      <span>0%</span>
+      <span>+100%</span>
+    </div>
+    <div class="presets">
+      <button class="preset-btn" data-pct="-50">−50%</button>
+      <button class="preset-btn" data-pct="-10">−10%</button>
+      <button class="preset-btn" data-pct="-5">−5%</button>
+      <button class="preset-btn" data-pct="5">+5%</button>
+      <button class="preset-btn" data-pct="10">+10%</button>
+      <button class="preset-btn" data-pct="25">+25%</button>
+      <button class="preset-btn" data-pct="50">+50%</button>
+      <button class="preset-btn" data-pct="100">+100%</button>
+    </div>
+    <div class="stop-summary" id="pctPriceRow">
+      <div class="stop-row" id="pctPriceRowInner" style="display:none;">
+        <span class="stop-label" id="pctTargetLabel">Precio objetivo (TP)</span>
+        <span class="stop-target-price gain" id="pctTargetPrice">$—</span>
+      </div>
+      <div class="stop-row">
+        <span class="stop-label" id="pctAmountLabel">Ganancia esperada</span>
+        <span class="stop-target-price gain" id="pctAmount">+$0.00</span>
+      </div>
+    </div>
+  </div>
   <!-- Stop Loss -->
   <div class="slider-card stop" id="stopCard">
     <div class="slider-header">
@@ -965,73 +1263,32 @@
       </div>
     </div>
   </div>
-
-  <!-- Inversión -->
-  <div class="slider-card" id="invCard">
-    <div class="slider-header">
-      <div class="slider-title">Monto de Inversión</div>
-      <div class="slider-value-wrap">
-        <span class="slider-value-prefix">$</span>
-        <input type="text" class="slider-value" id="invValue" value="10,000">
+  <!-- Resultado -->
+  <div class="result-card" id="resultCard">
+    <div class="result-label">
+      <span class="status-dot"></span>
+      <span id="resultLabel">Total Resultante</span>
+    </div>
+    <div class="result-total" id="totalDisplay">$10,000.00</div>
+    <div class="result-meta">
+      <div class="meta-item">
+        <div class="meta-label">P/L Absoluto</div>
+        <div class="meta-value" id="pnlAbs">$0.00</div>
       </div>
-    </div>
-    <div class="slider-track-wrap">
-      <div class="track-bg"></div>
-      <div class="track-fill" id="invFill"></div>
-      <input type="range" id="invSlider" min="100" max="200000" step="100" value="10000">
-    </div>
-    <div class="range-labels">
-      <span>$100</span>
-      <span>$200,000</span>
-    </div>
-    <div class="presets">
-      <button class="preset-btn" data-inv="500">$500</button>
-      <button class="preset-btn" data-inv="1000">$1K</button>
-      <button class="preset-btn" data-inv="5000">$5K</button>
-      <button class="preset-btn" data-inv="10000">$10K</button>
-      <button class="preset-btn" data-inv="25000">$25K</button>
-      <button class="preset-btn" data-inv="50000">$50K</button>
-    </div>
-  </div>
-
-  <!-- Porcentaje -->
-  <div class="slider-card pct" id="pctCard">
-    <div class="slider-header">
-      <div class="slider-title">Ganancia / Pérdida</div>
-      <div class="slider-value-wrap">
-        <input type="text" class="slider-value" id="pctValue" value="0.00">
-        <span class="slider-value-suffix" id="pctSuffix">%</span>
+      <div class="meta-item">
+        <div class="meta-label">P/L Porcentaje</div>
+        <div class="meta-value" id="pnlPct">0.00%</div>
       </div>
-    </div>
-    <div class="slider-track-wrap">
-      <div class="track-bg"></div>
-      <div class="track-fill" id="pctFill"></div>
-      <div class="center-mark" style="left: 50%;"></div>
-      <input type="range" id="pctSlider" min="-100" max="100" step="0.5" value="10">
-    </div>
-    <div class="range-labels">
-      <span>−100%</span>
-      <span>0%</span>
-      <span>+100%</span>
-    </div>
-    <div class="presets">
-      <button class="preset-btn" data-pct="-50">−50%</button>
-      <button class="preset-btn" data-pct="-10">−10%</button>
-      <button class="preset-btn" data-pct="-5">−5%</button>
-      <button class="preset-btn" data-pct="5">+5%</button>
-      <button class="preset-btn" data-pct="10">+10%</button>
-      <button class="preset-btn" data-pct="25">+25%</button>
-      <button class="preset-btn" data-pct="50">+50%</button>
-      <button class="preset-btn" data-pct="100">+100%</button>
-    </div>
-    <div class="stop-summary" id="pctPriceRow" style="display:none;">
-      <div class="stop-row">
-        <span class="stop-label" id="pctTargetLabel">Precio objetivo (TP)</span>
-        <span class="stop-target-price gain" id="pctTargetPrice">$—</span>
+      <div class="meta-item">
+        <div class="meta-label">ROI Multiplicador</div>
+        <div class="meta-value" id="roiMult">1.00×</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Riesgo / Recompensa</div>
+        <div class="meta-value" id="rrRatio">— : —</div>
       </div>
     </div>
   </div>
-
   <div class="footer">
     <span id="liveTime">— —:—:—</span>
     <button class="reset-btn" id="resetBtn">↺ Reset</button>
@@ -1132,6 +1389,38 @@
     stopAmount.textContent = fmtMoney(stopLoss);
     stopProtected.textContent = fmtMoney(protectedCapital);
 
+    // ── Cantidad de acciones según monto de inversión ──
+    if (typeof volState !== 'undefined' && volState.price) {
+      const shares = Math.floor(inv / volState.price);
+      const invSharesRow = document.getElementById('invSharesRow');
+      const invShares = document.getElementById('invShares');
+      if (invSharesRow && invShares) {
+        invSharesRow.style.display = 'block';
+        invShares.textContent = shares.toLocaleString() + ' shares de ' + volState.ticker + ' @ $' + volState.price.toFixed(2);
+      }
+    } else {
+      const invSharesRow = document.getElementById('invSharesRow');
+      if (invSharesRow) invSharesRow.style.display = 'none';
+    }
+
+    // ── Monto en $ de la ganancia/pérdida ──
+    const pctAmount = document.getElementById('pctAmount');
+    const pctAmountLabel = document.getElementById('pctAmountLabel');
+    if (pctAmount && pctAmountLabel) {
+      const pctMoney = inv * (pct / 100);
+      pctAmount.textContent = (pctMoney >= 0 ? '+' : '−') + '$' + Math.abs(pctMoney).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      pctAmount.classList.remove('gain', 'loss');
+      if (pct > 0) {
+        pctAmountLabel.textContent = 'Ganancia esperada';
+        pctAmount.classList.add('gain');
+      } else if (pct < 0) {
+        pctAmountLabel.textContent = 'Pérdida esperada';
+        pctAmount.classList.add('loss');
+      } else {
+        pctAmountLabel.textContent = 'Sin cambio';
+      }
+    }
+
     // ── Precios target en la acción (si hay ticker cargado) ──
     if (typeof volState !== 'undefined' && volState.price) {
       const sharePrice = volState.price;
@@ -1145,10 +1434,10 @@
 
       // Precio objetivo del TP/SL del slider de %
       const pctPriceTarget = sharePrice * (1 + pct / 100);
-      const pctPriceRow = document.getElementById('pctPriceRow');
+      const pctPriceRowInner = document.getElementById('pctPriceRowInner');
       const pctTargetPrice = document.getElementById('pctTargetPrice');
       const pctTargetLabel = document.getElementById('pctTargetLabel');
-      pctPriceRow.style.display = 'block';
+      pctPriceRowInner.style.display = 'flex';
       pctTargetPrice.textContent = '$' + pctPriceTarget.toFixed(2) + ' (' + volState.ticker + ')';
       // Label dinámico según signo
       if (pct > 0) {
@@ -1166,9 +1455,9 @@
     } else {
       // Sin ticker cargado — ocultamos las filas de precio
       const stopPriceRow = document.getElementById('stopPriceRow');
-      const pctPriceRow = document.getElementById('pctPriceRow');
+      const pctPriceRowInner = document.getElementById('pctPriceRowInner');
       if (stopPriceRow) stopPriceRow.style.display = 'none';
-      if (pctPriceRow) pctPriceRow.style.display = 'none';
+      if (pctPriceRowInner) pctPriceRowInner.style.display = 'none';
     }
 
     // Risk / Reward ratio: usa el % como target de ganancia
@@ -1657,6 +1946,177 @@
   // Re-render cuando cambia el monto de inversión (ya no afecta position size, pero por consistencia)
   invSlider.addEventListener('input', () => {
     // El monto de inversión es independiente del capital total ahora
+  });
+
+  // ────────────────────────────────────────────────────────
+  // NEWS PANEL (Finnhub /company-news)
+  // ────────────────────────────────────────────────────────
+  const newsFab = document.getElementById('newsFab');
+  const newsPanel = document.getElementById('newsPanel');
+  const newsList = document.getElementById('newsList');
+  const newsStatus = document.getElementById('newsStatus');
+  const newsTickerLabel = document.getElementById('newsTickerLabel');
+  const newsLastUpdate = document.getElementById('newsLastUpdate');
+  const newsRefreshBtn = document.getElementById('newsRefreshBtn');
+  const newsCloseBtn = document.getElementById('newsCloseBtn');
+  const newsFabBadge = document.getElementById('newsFabBadge');
+
+  let newsRefreshTimer = null;
+  let newsCache = [];
+
+  function setNewsStatus(msg, type = '') {
+    newsStatus.textContent = msg;
+    newsStatus.className = 'news-status' + (type ? ' ' + type : '');
+  }
+
+  // Formatear timestamp de unix a hora relativa
+  function timeAgo(unixSeconds) {
+    const seconds = Math.floor(Date.now() / 1000) - unixSeconds;
+    if (seconds < 60) return 'hace ' + seconds + 's';
+    const mins = Math.floor(seconds / 60);
+    if (mins < 60) return 'hace ' + mins + 'm';
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return 'hace ' + hours + 'h';
+    const days = Math.floor(hours / 24);
+    return 'hace ' + days + 'd';
+  }
+
+  async function fetchNews(ticker) {
+    if (!apiKey || !ticker) return;
+
+    setNewsStatus('Cargando noticias...', 'loading');
+    newsRefreshBtn.classList.add('spinning');
+
+    try {
+      // Finnhub company-news requiere from y to (formato YYYY-MM-DD)
+      // Pedimos los últimos 7 días para asegurar que haya noticias
+      const today = new Date();
+      const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const fmt = (d) => d.toISOString().split('T')[0];
+
+      const url = `${FINNHUB_BASE}/company-news?symbol=${ticker}&from=${fmt(weekAgo)}&to=${fmt(today)}&token=${apiKey}`;
+      const res = await fetch(url);
+
+      if (!res.ok) {
+        throw new Error('Error API: ' + res.status);
+      }
+
+      const news = await res.json();
+
+      if (!Array.isArray(news) || news.length === 0) {
+        renderNews([]);
+        setNewsStatus('No hay noticias recientes para ' + ticker, '');
+        return;
+      }
+
+      // Ordenar por fecha desc y tomar las 2 más recientes
+      news.sort((a, b) => b.datetime - a.datetime);
+      newsCache = news.slice(0, 2);
+      renderNews(newsCache);
+
+      const now = new Date();
+      newsLastUpdate.textContent = '↻ ' + now.toLocaleTimeString('es-DO', { hour: '2-digit', minute: '2-digit' });
+      setNewsStatus('');
+
+      // Mostrar badge si el panel está cerrado
+      if (newsPanel.style.display === 'none') {
+        newsFabBadge.style.display = 'flex';
+        newsFabBadge.textContent = newsCache.length;
+      }
+    } catch (err) {
+      let msg = err.message;
+      if (msg === 'Failed to fetch') msg = 'Conexión bloqueada (CORS)';
+      setNewsStatus('Error: ' + msg, 'error');
+    } finally {
+      setTimeout(() => newsRefreshBtn.classList.remove('spinning'), 800);
+    }
+  }
+
+  function renderNews(items) {
+    if (!items || items.length === 0) {
+      newsList.innerHTML = '<div class="news-empty">No hay noticias recientes.</div>';
+      return;
+    }
+    newsList.innerHTML = items.map(item => `
+      <div class="news-item">
+        <div class="news-item-meta">
+          <span class="news-item-source">${escapeHtml(item.source || 'Source')}</span>
+          <span>${timeAgo(item.datetime)}</span>
+        </div>
+        <div class="news-item-headline">${escapeHtml(item.headline || '')}</div>
+        ${item.summary ? `<div class="news-item-summary">${escapeHtml(item.summary)}</div>` : ''}
+        ${item.url ? `<a href="${escapeAttr(item.url)}" target="_blank" rel="noopener" class="news-item-link">
+          Leer artículo →
+        </a>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+  function escapeAttr(str) { return String(str).replace(/"/g, '&quot;'); }
+
+  function startNewsAutoRefresh(ticker) {
+    if (newsRefreshTimer) clearInterval(newsRefreshTimer);
+    newsRefreshTimer = setInterval(() => {
+      if (volState.ticker) fetchNews(volState.ticker);
+    }, 5 * 60 * 1000); // 5 min
+  }
+
+  // Toggle panel
+  newsFab.addEventListener('click', () => {
+    if (newsPanel.style.display === 'none') {
+      newsPanel.style.display = 'flex';
+      newsFabBadge.style.display = 'none';
+      // Si tenemos cache, mostrarlo; si no, fetchear
+      if (newsCache.length > 0) {
+        renderNews(newsCache);
+      } else if (volState.ticker) {
+        fetchNews(volState.ticker);
+      }
+    } else {
+      newsPanel.style.display = 'none';
+    }
+  });
+
+  newsCloseBtn.addEventListener('click', () => {
+    newsPanel.style.display = 'none';
+  });
+
+  newsRefreshBtn.addEventListener('click', () => {
+    if (volState.ticker) fetchNews(volState.ticker);
+  });
+
+  // Hook al fetch del ticker: cuando se carga, también cargar noticias
+  // (Modificamos volState para detectar cambios)
+  const originalFetch = fetchTickerData;
+  fetchTickerData = async function(ticker) {
+    await originalFetch(ticker);
+    if (volState.ticker === ticker) {
+      newsFab.style.display = 'flex';
+      newsTickerLabel.textContent = ticker;
+      newsCache = []; // limpiar cache de noticias del ticker anterior
+      fetchNews(ticker);
+      startNewsAutoRefresh(ticker);
+    }
+  };
+
+  // Re-asignar el listener del fetchBtn para que use la nueva versión
+  fetchBtn.replaceWith(fetchBtn.cloneNode(true));
+  const newFetchBtn = document.getElementById('fetchBtn');
+  newFetchBtn.addEventListener('click', () => {
+    const t = tickerInput.value.trim().toUpperCase();
+    if (!t) {
+      setStatus('Escribe un ticker (ej: NBIS)', 'error');
+      return;
+    }
+    fetchTickerData(t);
+  });
+  tickerInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') newFetchBtn.click();
   });
 
   calculate();
