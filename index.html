@@ -43,6 +43,318 @@
     font-feature-settings: "tnum";
   }
 
+  /* ─── Tabs Nav ─── */
+  .tabs-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 22px;
+    background: var(--bg-card);
+    padding: 5px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 11px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    background: var(--bg-elev);
+    color: var(--text);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+
+  /* ─── Options Panel ─── */
+  .opt-type-toggle {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .opt-type-btn {
+    flex: 1;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 11px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .opt-type-btn:hover { border-color: var(--border-strong); color: var(--text); }
+  .opt-type-btn[data-type="call"].active {
+    background: rgba(0, 214, 143, 0.15);
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .opt-type-btn[data-type="put"].active {
+    background: rgba(255, 77, 109, 0.15);
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .opt-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .opt-input-group label {
+    display: block;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .opt-input-wrap {
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 46px;
+    transition: border-color 0.15s;
+  }
+  .opt-input-wrap:focus-within { border-color: var(--accent); }
+  .opt-input-wrap .prefix {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text-dim);
+    font-weight: 500;
+    margin-right: 6px;
+  }
+  .opt-input-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    width: 100%;
+    font-variant-numeric: tabular-nums;
+    padding: 0;
+  }
+  .opt-sync-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 6px;
+    width: 30px; height: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 6px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .opt-sync-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .opt-sync-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .opt-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .opt-metric {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 14px;
+  }
+  .opt-metric-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .opt-metric-value {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .opt-metric-value.highlight { color: var(--amber); }
+  .opt-metric-value.loss { color: var(--red); }
+  .opt-metric-value.gain { color: var(--green); }
+  .opt-metric-sub {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    font-weight: 500;
+  }
+
+  .opt-card-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .opt-vs-stock {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+  }
+  .opt-vs-label {
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  .opt-vs-value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .opt-vs-value.gain { color: var(--green); }
+  .opt-vs-value.loss { color: var(--red); }
+
+  /* ─── Pre-Expiration Simulator ─── */
+  .opt-card-tag {
+    background: rgba(93, 169, 255, 0.12);
+    color: var(--accent);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: auto;
+  }
+
+  .opt-card-desc {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.55;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .opt-projection {
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .opt-projection.gain { border-color: rgba(0, 214, 143, 0.35); }
+  .opt-projection.loss { border-color: rgba(255, 77, 109, 0.35); }
+
+  .opt-proj-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .opt-proj-row.big {
+    padding-top: 10px;
+    margin-top: 4px;
+    border-top: 1px dashed var(--border);
+  }
+  .opt-proj-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .opt-proj-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .opt-proj-value.big-value {
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+  .opt-proj-value.highlight { color: var(--accent); }
+  .opt-proj-value.gain { color: var(--green); }
+  .opt-proj-value.loss { color: var(--red); }
+  .opt-proj-value.muted { color: var(--text-dim); font-weight: 500; }
+
+  .greeks-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+  }
+  .greek {
+    text-align: center;
+  }
+  .greek-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .greek-value {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .opt-disclaimer {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 181, 71, 0.06);
+    border-left: 2px solid var(--amber);
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* Responsive options grid */
+  @media (max-width: 600px) {
+    .opt-inputs-grid { grid-template-columns: 1fr; }
+    .opt-metrics-grid { grid-template-columns: 1fr 1fr; }
+    .greeks-row { grid-template-columns: 1fr 1fr; }
+  }
+
   .container {
     max-width: 720px;
     margin: 0 auto;
@@ -1447,6 +1759,18 @@
     <h1>Calculadora de <em>Inversión</em></h1>
   </header>
 
+  <!-- Tabs Navigation -->
+  <div class="tabs-nav" role="tablist">
+    <button class="tab-btn active" data-pane="stocks" role="tab">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+      Acciones
+    </button>
+    <button class="tab-btn" data-pane="options" role="tab">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+      Opciones
+    </button>
+  </div>
+
 
   <!-- Volatility-based Stop Loss recommendation -->
   <div class="slider-card vol-card" id="volCard">
@@ -1893,6 +2217,301 @@
       </div>
     </div>
   </div>
+  <!-- ═══════════════════════════════════════ -->
+  <!--  OPTIONS PANEL (oculto por defecto)    -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="options-panel" id="optionsPanel" style="display:none;">
+
+    <!-- Inputs Card -->
+    <div class="slider-card">
+      <div class="opt-card-title">
+        <span style="display:inline-block; width:6px; height:6px; background:var(--accent); border-radius:50%; box-shadow: 0 0 6px var(--accent);"></span>
+        Datos del contrato
+      </div>
+
+      <div class="opt-type-toggle">
+        <button class="opt-type-btn active" data-type="call">CALL</button>
+        <button class="opt-type-btn" data-type="put">PUT</button>
+      </div>
+
+      <div class="opt-inputs-grid">
+        <div class="opt-input-group">
+          <label>Precio actual de la acción</label>
+          <div class="opt-input-wrap">
+            <span class="prefix">$</span>
+            <input type="text" id="optStockPrice" value="113.69" inputmode="decimal">
+            <button class="opt-sync-btn" id="optSyncBtn" title="Sincronizar con ticker cargado">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="opt-input-group">
+          <label>Strike Price</label>
+          <div class="opt-input-wrap">
+            <span class="prefix">$</span>
+            <input type="text" id="optStrike" value="125" inputmode="decimal">
+          </div>
+        </div>
+
+        <div class="opt-input-group">
+          <label>Prima por contrato</label>
+          <div class="opt-input-wrap">
+            <span class="prefix">$</span>
+            <input type="text" id="optPremium" value="50.00" inputmode="decimal">
+          </div>
+        </div>
+
+        <div class="opt-input-group">
+          <label># de contratos</label>
+          <div class="opt-input-wrap">
+            <input type="text" id="optContracts" value="1" inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="opt-input-group">
+          <label>Días al vencimiento</label>
+          <div class="opt-input-wrap">
+            <input type="text" id="optDte" value="586" inputmode="numeric" placeholder="ej: 586">
+            <span style="color:var(--text-muted); font-size:11px; margin-left:6px; white-space:nowrap;" id="optDteSub">~19m</span>
+          </div>
+        </div>
+
+        <div class="opt-input-group">
+          <label>Volatilidad implícita (IV)</label>
+          <div class="opt-input-wrap">
+            <input type="text" id="optIv" value="77.41" inputmode="decimal" placeholder="ej: 77.41">
+            <span style="color:var(--text-muted); font-size:14px; margin-left:4px;">%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calculated Metrics Card -->
+    <div class="slider-card">
+      <div class="opt-card-title">
+        <span style="display:inline-block; width:6px; height:6px; background:var(--amber); border-radius:50%; box-shadow: 0 0 6px var(--amber);"></span>
+        Métricas calculadas
+      </div>
+
+      <div class="opt-metrics-grid">
+        <div class="opt-metric">
+          <div class="opt-metric-label">Costo total</div>
+          <div class="opt-metric-value" id="optTotalCost">$5,000</div>
+          <div class="opt-metric-sub" id="optTotalCostSub">1 contrato × 100</div>
+        </div>
+        <div class="opt-metric">
+          <div class="opt-metric-label">Breakeven</div>
+          <div class="opt-metric-value highlight" id="optBreakeven">$175.00</div>
+          <div class="opt-metric-sub">strike + prima</div>
+        </div>
+        <div class="opt-metric">
+          <div class="opt-metric-label">Movimiento req.</div>
+          <div class="opt-metric-value highlight" id="optMoveReq">+54.0%</div>
+          <div class="opt-metric-sub">para no perder</div>
+        </div>
+        <div class="opt-metric">
+          <div class="opt-metric-label">Valor intrínseco</div>
+          <div class="opt-metric-value" id="optIntrinsic">$0.00</div>
+          <div class="opt-metric-sub" id="optIntrinsicSub">OTM por $11.31</div>
+        </div>
+        <div class="opt-metric">
+          <div class="opt-metric-label">Valor extrínseco</div>
+          <div class="opt-metric-value" id="optExtrinsic">$50.00</div>
+          <div class="opt-metric-sub">tiempo + IV</div>
+        </div>
+        <div class="opt-metric">
+          <div class="opt-metric-label">Pérdida máxima</div>
+          <div class="opt-metric-value loss" id="optMaxLoss">−$5,000</div>
+          <div class="opt-metric-sub">si vence OTM</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario Slider Card -->
+    <div class="slider-card pct" id="optScenarioCard">
+      <div class="slider-header">
+        <div class="slider-title">Precio al vencimiento</div>
+        <div class="slider-value-wrap">
+          <span class="slider-value-prefix">$</span>
+          <input type="text" class="slider-value" id="optScenarioValue" value="175.00">
+        </div>
+      </div>
+      <div class="slider-track-wrap">
+        <div class="track-bg"></div>
+        <div class="track-fill" id="optScenarioFill"></div>
+        <input type="range" id="optScenarioSlider" min="50" max="400" step="0.5" value="175">
+      </div>
+      <div class="range-labels">
+        <span>$50</span>
+        <span>BE: <span id="optScenarioBE">$175</span></span>
+        <span>$400</span>
+      </div>
+      <div class="presets">
+        <button class="preset-btn" data-scen-pct="-30">−30%</button>
+        <button class="preset-btn" data-scen-pct="0">spot</button>
+        <button class="preset-btn" data-scen-be="1">breakeven</button>
+        <button class="preset-btn" data-scen-pct="50">+50%</button>
+        <button class="preset-btn" data-scen-pct="100">+100%</button>
+        <button class="preset-btn" data-scen-pct="150">+150%</button>
+      </div>
+    </div>
+
+    <!-- Result Card for options -->
+    <div class="result-card" id="optResultCard">
+      <div class="result-label">
+        <span class="status-dot"></span>
+        <span>Resultado al vencimiento</span>
+      </div>
+      <div class="result-total" id="optTotalDisplay">$0.00</div>
+      <div class="result-meta">
+        <div class="meta-item">
+          <div class="meta-label">Valor opción</div>
+          <div class="meta-value" id="optFinalValue">$0.00</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">P/L absoluto</div>
+          <div class="meta-value" id="optPnlAbs">$0.00</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">P/L %</div>
+          <div class="meta-value" id="optPnlPct">0.00%</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">ROI</div>
+          <div class="meta-value" id="optRoi">1.00×</div>
+        </div>
+      </div>
+      <div class="opt-vs-stock">
+        <span class="opt-vs-label">vs comprar acciones con el mismo capital</span>
+        <span class="opt-vs-value" id="optVsStock">—</span>
+      </div>
+    </div>
+
+    <!-- ═══ Simulador antes del vencimiento (Black-Scholes) ═══ -->
+    <div class="slider-card" id="optBsCard">
+      <div class="opt-card-title">
+        <span style="display:inline-block; width:6px; height:6px; background:#A78BFA; border-radius:50%; box-shadow: 0 0 6px #A78BFA;"></span>
+        Simulador antes del vencimiento
+        <span class="opt-card-tag">Black-Scholes</span>
+      </div>
+
+      <p class="opt-card-desc">
+        Estima cuánto valdría tu opción si la acción se mueve antes del vencimiento.
+        Útil para trades direccionales rápidos: puedes ganar sin que la acción llegue al breakeven, porque el contrato se aprecia con el delta y la volatilidad embebida.
+      </p>
+
+      <!-- Slider 1: Movimiento de la acción -->
+      <div style="margin-bottom: 22px;">
+        <div class="slider-header">
+          <div class="slider-title">Movimiento de la acción</div>
+          <div class="slider-value-wrap">
+            <input type="text" class="slider-value" id="optBsMoveValue" value="0.0" style="width: 100px;">
+            <span class="slider-value-suffix">%</span>
+          </div>
+        </div>
+        <div class="slider-track-wrap">
+          <div class="track-bg"></div>
+          <div class="track-fill" id="optBsMoveFill"></div>
+          <div class="center-mark" style="left: 33.3%;"></div>
+          <input type="range" id="optBsMoveSlider" min="-50" max="100" step="0.5" value="0">
+        </div>
+        <div class="range-labels">
+          <span>−50%</span>
+          <span>0%</span>
+          <span>+100%</span>
+        </div>
+        <div class="presets">
+          <button class="preset-btn" data-bsmove="-15">−15%</button>
+          <button class="preset-btn" data-bsmove="-8">−8%</button>
+          <button class="preset-btn" data-bsmove="-3">−3%</button>
+          <button class="preset-btn" data-bsmove="3">+3%</button>
+          <button class="preset-btn" data-bsmove="5">+5%</button>
+          <button class="preset-btn" data-bsmove="8">+8%</button>
+          <button class="preset-btn" data-bsmove="15">+15%</button>
+          <button class="preset-btn" data-bsmove="25">+25%</button>
+        </div>
+      </div>
+
+      <!-- Slider 2: Días transcurridos -->
+      <div>
+        <div class="slider-header">
+          <div class="slider-title">Días desde la compra</div>
+          <div class="slider-value-wrap">
+            <input type="text" class="slider-value" id="optBsDaysValue" value="1" style="width: 80px;">
+            <span class="slider-value-suffix">días</span>
+          </div>
+        </div>
+        <div class="slider-track-wrap">
+          <div class="track-bg"></div>
+          <div class="track-fill" id="optBsDaysFill"></div>
+          <input type="range" id="optBsDaysSlider" min="0" max="586" step="1" value="1">
+        </div>
+        <div class="range-labels">
+          <span>hoy</span>
+          <span id="optBsDaysMid">1 año</span>
+          <span id="optBsDaysMax">vencimiento</span>
+        </div>
+        <div class="presets">
+          <button class="preset-btn" data-bsdays="1">1 día</button>
+          <button class="preset-btn" data-bsdays="7">1 sem</button>
+          <button class="preset-btn" data-bsdays="30">1 mes</button>
+          <button class="preset-btn" data-bsdays="90">3 meses</button>
+          <button class="preset-btn" data-bsdays="180">6 meses</button>
+          <button class="preset-btn" data-bsdays="365">1 año</button>
+        </div>
+      </div>
+
+      <!-- Resultado proyectado -->
+      <div class="opt-projection" id="optBsProjection">
+        <div class="opt-proj-row">
+          <span class="opt-proj-label">Precio de la acción</span>
+          <span class="opt-proj-value" id="optBsNewStock">$113.69</span>
+        </div>
+        <div class="opt-proj-row">
+          <span class="opt-proj-label">Días restantes</span>
+          <span class="opt-proj-value muted" id="optBsRemainingDte">585 días</span>
+        </div>
+        <div class="opt-proj-row big">
+          <span class="opt-proj-label">Valor estimado de la opción</span>
+          <span class="opt-proj-value highlight big-value" id="optBsValue">$50.00</span>
+        </div>
+        <div class="opt-proj-row">
+          <span class="opt-proj-label">P/L proyectado por contrato</span>
+          <span class="opt-proj-value" id="optBsPnl">$0.00 (0.0%)</span>
+        </div>
+        <div class="opt-proj-row">
+          <span class="opt-proj-label">P/L total (todos los contratos)</span>
+          <span class="opt-proj-value" id="optBsPnlTotal">$0.00</span>
+        </div>
+
+        <!-- Greeks -->
+        <div class="greeks-row">
+          <div class="greek">
+            <div class="greek-label">Delta</div>
+            <div class="greek-value" id="optGreekDelta">—</div>
+          </div>
+          <div class="greek">
+            <div class="greek-label">Gamma</div>
+            <div class="greek-value" id="optGreekGamma">—</div>
+          </div>
+          <div class="greek">
+            <div class="greek-label">Theta/día</div>
+            <div class="greek-value" id="optGreekTheta">—</div>
+          </div>
+          <div class="greek">
+            <div class="greek-label">Vega/1%</div>
+            <div class="greek-value" id="optGreekVega">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="opt-disclaimer">
+        <strong>Estimación teórica.</strong> Black-Scholes asume volatilidad e intereses constantes. El precio real puede variar ±5-15% por IV crush, eventos de mercado, spreads bid/ask, y porque las opciones americanas (las de US) pueden ejercerse anticipadamente.
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
     <span id="liveTime">— —:—:—</span>
     <button class="reset-btn" id="resetBtn">↺ Reset</button>
@@ -3072,6 +3691,522 @@
   });
 
   calculate();
+
+  // ═══════════════════════════════════════════
+  //  TABS NAVIGATION
+  // ═══════════════════════════════════════════
+  const STOCK_CARD_IDS = ['volCard', 'invCard', 'pctCard', 'stopCard', 'resultCard'];
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const optionsPanel = document.getElementById('optionsPanel');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.pane;
+      tabBtns.forEach(b => b.classList.toggle('active', b === btn));
+
+      if (target === 'stocks') {
+        STOCK_CARD_IDS.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = '';
+        });
+        optionsPanel.style.display = 'none';
+      } else {
+        STOCK_CARD_IDS.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'none';
+        });
+        optionsPanel.style.display = '';
+        // Auto-sync precio si hay ticker cargado
+        if (typeof volState !== 'undefined' && volState && volState.price) {
+          const stockEl = document.getElementById('optStockPrice');
+          if (!stockEl.dataset.userEdited) {
+            stockEl.value = volState.price.toFixed(2);
+          }
+        }
+        calcOptions();
+      }
+    });
+  });
+
+  // ═══════════════════════════════════════════
+  //  OPTIONS CALCULATOR
+  // ═══════════════════════════════════════════
+  let optType = 'call';
+
+  const optStockPrice = document.getElementById('optStockPrice');
+  const optStrike = document.getElementById('optStrike');
+  const optPremium = document.getElementById('optPremium');
+  const optContracts = document.getElementById('optContracts');
+  const optDte = document.getElementById('optDte');
+  const optScenarioSlider = document.getElementById('optScenarioSlider');
+  const optScenarioValue = document.getElementById('optScenarioValue');
+  const optScenarioFill = document.getElementById('optScenarioFill');
+  const optScenarioCard = document.getElementById('optScenarioCard');
+  const optResultCard = document.getElementById('optResultCard');
+
+  function getOptNum(el, def = 0) {
+    if (!el) return def;
+    const cleaned = String(el.value).replace(/[^0-9.\-]/g, '');
+    const v = parseFloat(cleaned);
+    return isNaN(v) ? def : v;
+  }
+
+  function fmtMoney0(n) {
+    const sign = n < 0 ? '−' : '';
+    return sign + '$' + Math.abs(n).toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  function fmtMoney2(n) {
+    const sign = n < 0 ? '−' : '';
+    return sign + '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function updateOptScenarioFill() {
+    const min = +optScenarioSlider.min, max = +optScenarioSlider.max, val = +optScenarioSlider.value;
+    const pct = ((val - min) / (max - min)) * 100;
+    optScenarioFill.style.left = '0%';
+    optScenarioFill.style.width = pct + '%';
+  }
+
+  function calcOptions() {
+    const stock = getOptNum(optStockPrice, 0);
+    const strike = getOptNum(optStrike, 0);
+    const premium = getOptNum(optPremium, 0);
+    const contracts = Math.max(1, Math.floor(getOptNum(optContracts, 1)));
+    const dte = Math.max(0, Math.floor(getOptNum(optDte, 0)));
+    const finalPrice = getOptNum(optScenarioValue, 0);
+
+    // Cálculos básicos
+    const totalCost = premium * 100 * contracts;
+    const breakeven = optType === 'call' ? strike + premium : strike - premium;
+    const moveReq = stock > 0 ? ((breakeven - stock) / stock) * 100 : 0;
+    const intrinsic = optType === 'call' ? Math.max(0, stock - strike) : Math.max(0, strike - stock);
+    const extrinsic = Math.max(0, premium - intrinsic);
+
+    // Escenario al vencimiento
+    const optValueAtExp = optType === 'call'
+      ? Math.max(0, finalPrice - strike)
+      : Math.max(0, strike - finalPrice);
+    const totalValueAtExp = optValueAtExp * 100 * contracts;
+    const pnl = totalValueAtExp - totalCost;
+    const pnlPct = totalCost > 0 ? (pnl / totalCost) * 100 : 0;
+    const roi = totalCost > 0 ? totalValueAtExp / totalCost : 0;
+
+    // Comparación con compra de acciones
+    const sharesIfBought = stock > 0 ? totalCost / stock : 0;
+    const stockPnl = sharesIfBought * (finalPrice - stock);
+    const vsStockDelta = pnl - stockPnl;
+
+    // ── Update DOM: métricas ──
+    document.getElementById('optTotalCost').textContent = fmtMoney0(totalCost);
+    document.getElementById('optTotalCostSub').textContent = contracts + ' contrato' + (contracts > 1 ? 's' : '') + ' × 100';
+    document.getElementById('optBreakeven').textContent = '$' + breakeven.toFixed(2);
+    document.getElementById('optMoveReq').textContent = (moveReq >= 0 ? '+' : '') + moveReq.toFixed(1) + '%';
+
+    // Color del moveReq según magnitud
+    const moveReqEl = document.getElementById('optMoveReq');
+    moveReqEl.classList.remove('highlight', 'loss', 'gain');
+    if (Math.abs(moveReq) > 50) moveReqEl.classList.add('loss');
+    else if (Math.abs(moveReq) > 25) moveReqEl.classList.add('highlight');
+
+    document.getElementById('optIntrinsic').textContent = '$' + intrinsic.toFixed(2);
+    document.getElementById('optExtrinsic').textContent = '$' + extrinsic.toFixed(2);
+    document.getElementById('optMaxLoss').textContent = '−' + fmtMoney0(totalCost);
+
+    // ITM/OTM/ATM label
+    const intrinsicSubEl = document.getElementById('optIntrinsicSub');
+    if (intrinsic > 0) {
+      intrinsicSubEl.textContent = 'ITM por $' + intrinsic.toFixed(2);
+    } else {
+      const otmBy = optType === 'call' ? strike - stock : stock - strike;
+      intrinsicSubEl.textContent = otmBy > 0 ? ('OTM por $' + otmBy.toFixed(2)) : 'ATM';
+    }
+
+    // DTE subtitle (months)
+    const dteSubEl = document.getElementById('optDteSub');
+    if (dte > 0) {
+      const months = dte / 30.5;
+      dteSubEl.textContent = '~' + months.toFixed(months < 1 ? 1 : 0) + (months < 2 ? ' mes' : ' meses');
+    } else {
+      dteSubEl.textContent = '';
+    }
+
+    // ── Update DOM: resultado ──
+    document.getElementById('optTotalDisplay').textContent = (pnl >= 0 ? '+' : '−') + '$' + Math.abs(pnl).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('optFinalValue').textContent = '$' + optValueAtExp.toFixed(2) + '/sh';
+    document.getElementById('optPnlAbs').textContent = (pnl >= 0 ? '+' : '−') + '$' + Math.abs(pnl).toLocaleString('en-US', { maximumFractionDigits: 0 });
+    document.getElementById('optPnlPct').textContent = (pnlPct >= 0 ? '+' : '') + pnlPct.toFixed(1) + '%';
+    document.getElementById('optRoi').textContent = roi.toFixed(2) + '×';
+
+    const vsStockEl = document.getElementById('optVsStock');
+    vsStockEl.classList.remove('gain', 'loss');
+    if (Math.abs(vsStockDelta) < 1) {
+      vsStockEl.textContent = 'empate técnico';
+    } else if (vsStockDelta > 0) {
+      vsStockEl.textContent = '+' + fmtMoney0(vsStockDelta) + ' (LEAPS gana)';
+      vsStockEl.classList.add('gain');
+    } else {
+      vsStockEl.textContent = fmtMoney0(vsStockDelta) + ' (acciones ganan)';
+      vsStockEl.classList.add('loss');
+    }
+
+    // ── Color del result card ──
+    optResultCard.classList.remove('profit', 'loss');
+    if (pnl > 0) optResultCard.classList.add('profit');
+    else if (pnl < 0) optResultCard.classList.add('loss');
+
+    // ── Slider scenario ──
+    optScenarioCard.classList.remove('gain', 'loss');
+    optScenarioFill.classList.remove('gain', 'loss');
+    if (pnl > 0) {
+      optScenarioCard.classList.add('gain');
+      optScenarioFill.classList.add('gain');
+    } else if (pnl < 0) {
+      optScenarioCard.classList.add('loss');
+      optScenarioFill.classList.add('loss');
+    }
+
+    // ── Breakeven label en slider ──
+    document.getElementById('optScenarioBE').textContent = '$' + breakeven.toFixed(0);
+
+    // Sincronizar slider si el valor de input está fuera de rango
+    const minS = +optScenarioSlider.min, maxS = +optScenarioSlider.max;
+    if (finalPrice >= minS && finalPrice <= maxS) {
+      optScenarioSlider.value = finalPrice;
+    }
+    updateOptScenarioFill();
+  }
+
+  // ── Wire up inputs ──
+  [optStockPrice, optStrike, optPremium, optContracts, optDte].forEach(el => {
+    el.addEventListener('input', () => {
+      el.dataset.userEdited = '1';
+      calcOptions();
+    });
+  });
+
+  optScenarioValue.addEventListener('input', calcOptions);
+
+  optScenarioSlider.addEventListener('input', (e) => {
+    optScenarioValue.value = parseFloat(e.target.value).toFixed(2);
+    calcOptions();
+  });
+
+  // ── Type toggle ──
+  document.querySelectorAll('.opt-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      optType = btn.dataset.type;
+      document.querySelectorAll('.opt-type-btn').forEach(b => b.classList.toggle('active', b === btn));
+      // Update breakeven formula label
+      const bkSub = document.querySelector('#optBreakeven').parentElement.querySelector('.opt-metric-sub');
+      if (bkSub) bkSub.textContent = optType === 'call' ? 'strike + prima' : 'strike − prima';
+      calcOptions();
+    });
+  });
+
+  // ── Sync button (jala precio del ticker cargado) ──
+  document.getElementById('optSyncBtn').addEventListener('click', () => {
+    if (typeof volState !== 'undefined' && volState && volState.price) {
+      optStockPrice.value = volState.price.toFixed(2);
+      delete optStockPrice.dataset.userEdited;
+      calcOptions();
+    } else {
+      // pequeño feedback visual
+      const btn = document.getElementById('optSyncBtn');
+      btn.style.borderColor = 'var(--red)';
+      btn.style.color = 'var(--red)';
+      setTimeout(() => {
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }, 600);
+    }
+  });
+
+  // ── Scenario presets ──
+  document.querySelectorAll('.preset-btn[data-scen-pct]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pct = parseFloat(btn.dataset.scenPct);
+      const stock = getOptNum(optStockPrice, 0);
+      if (stock > 0) {
+        const target = stock * (1 + pct / 100);
+        optScenarioValue.value = target.toFixed(2);
+        const minS = +optScenarioSlider.min, maxS = +optScenarioSlider.max;
+        optScenarioSlider.value = Math.min(maxS, Math.max(minS, target));
+        calcOptions();
+      }
+    });
+  });
+
+  document.querySelectorAll('.preset-btn[data-scen-be]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const strike = getOptNum(optStrike, 0);
+      const premium = getOptNum(optPremium, 0);
+      const be = optType === 'call' ? strike + premium : strike - premium;
+      if (be > 0) {
+        optScenarioValue.value = be.toFixed(2);
+        const minS = +optScenarioSlider.min, maxS = +optScenarioSlider.max;
+        optScenarioSlider.value = Math.min(maxS, Math.max(minS, be));
+        calcOptions();
+      }
+    });
+  });
+
+  // ── Cálculo inicial ──
+  calcOptions();
+
+  // ═══════════════════════════════════════════
+  //  BLACK-SCHOLES + GREEKS + PRE-EXPIRY SIM
+  // ═══════════════════════════════════════════
+
+  // Cumulative normal distribution (Abramowitz & Stegun 7.1.26)
+  function normCDF(x) {
+    const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+    const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    const sign = x < 0 ? -1 : 1;
+    x = Math.abs(x) / Math.sqrt(2);
+    const t = 1.0 / (1.0 + p * x);
+    const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+    return 0.5 * (1.0 + sign * y);
+  }
+
+  // Standard normal PDF
+  function normPDF(x) {
+    return Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+  }
+
+  // Black-Scholes price
+  // S = stock, K = strike, T = time in years, r = rate, sigma = vol (decimal)
+  function blackScholes(S, K, T, r, sigma, type) {
+    if (T <= 0 || sigma <= 0 || S <= 0 || K <= 0) {
+      return type === 'call' ? Math.max(0, S - K) : Math.max(0, K - S);
+    }
+    const sqrtT = Math.sqrt(T);
+    const d1 = (Math.log(S / K) + (r + sigma * sigma / 2) * T) / (sigma * sqrtT);
+    const d2 = d1 - sigma * sqrtT;
+    if (type === 'call') {
+      return S * normCDF(d1) - K * Math.exp(-r * T) * normCDF(d2);
+    } else {
+      return K * Math.exp(-r * T) * normCDF(-d2) - S * normCDF(-d1);
+    }
+  }
+
+  // Greeks
+  function greeks(S, K, T, r, sigma, type) {
+    if (T <= 0 || sigma <= 0 || S <= 0 || K <= 0) {
+      return { delta: 0, gamma: 0, theta: 0, vega: 0 };
+    }
+    const sqrtT = Math.sqrt(T);
+    const d1 = (Math.log(S / K) + (r + sigma * sigma / 2) * T) / (sigma * sqrtT);
+    const d2 = d1 - sigma * sqrtT;
+    const Nd1 = normCDF(d1);
+    const nd1 = normPDF(d1);
+
+    const delta = type === 'call' ? Nd1 : Nd1 - 1;
+    const gamma = nd1 / (S * sigma * sqrtT);
+    // Theta per year, divide by 365 for per-day
+    const thetaCommon = -(S * nd1 * sigma) / (2 * sqrtT);
+    let theta;
+    if (type === 'call') {
+      theta = thetaCommon - r * K * Math.exp(-r * T) * normCDF(d2);
+    } else {
+      theta = thetaCommon + r * K * Math.exp(-r * T) * normCDF(-d2);
+    }
+    const vega = S * nd1 * sqrtT / 100; // vega per 1% change in IV
+
+    return {
+      delta: delta,
+      gamma: gamma,
+      theta: theta / 365,
+      vega: vega
+    };
+  }
+
+  // ── Elementos del simulador ──
+  const optIv = document.getElementById('optIv');
+  const optBsMoveSlider = document.getElementById('optBsMoveSlider');
+  const optBsMoveValue = document.getElementById('optBsMoveValue');
+  const optBsMoveFill = document.getElementById('optBsMoveFill');
+  const optBsDaysSlider = document.getElementById('optBsDaysSlider');
+  const optBsDaysValue = document.getElementById('optBsDaysValue');
+  const optBsDaysFill = document.getElementById('optBsDaysFill');
+  const optBsProjection = document.getElementById('optBsProjection');
+
+  function updateBsMoveFill() {
+    const min = +optBsMoveSlider.min, max = +optBsMoveSlider.max, val = +optBsMoveSlider.value;
+    const range = max - min;
+    const center = ((0 - min) / range) * 100;
+    const valPos = ((val - min) / range) * 100;
+    optBsMoveFill.classList.remove('gain', 'loss');
+    if (val >= 0) {
+      optBsMoveFill.style.left = center + '%';
+      optBsMoveFill.style.width = (valPos - center) + '%';
+      if (val > 0) optBsMoveFill.classList.add('gain');
+    } else {
+      optBsMoveFill.style.left = valPos + '%';
+      optBsMoveFill.style.width = (center - valPos) + '%';
+      optBsMoveFill.classList.add('loss');
+    }
+  }
+
+  function updateBsDaysFill() {
+    const min = +optBsDaysSlider.min, max = +optBsDaysSlider.max, val = +optBsDaysSlider.value;
+    const pct = max > min ? ((val - min) / (max - min)) * 100 : 0;
+    optBsDaysFill.style.left = '0%';
+    optBsDaysFill.style.width = pct + '%';
+  }
+
+  function calcBsSimulation() {
+    const S0 = getOptNum(optStockPrice, 0);
+    const K = getOptNum(optStrike, 0);
+    const premiumNow = getOptNum(optPremium, 0);
+    const contracts = Math.max(1, Math.floor(getOptNum(optContracts, 1)));
+    const dteTotal = Math.max(0, Math.floor(getOptNum(optDte, 0)));
+    const ivPct = getOptNum(optIv, 0);
+    const sigma = ivPct / 100;
+    const r = 0.045; // tasa libre de riesgo aproximada (4.5%)
+
+    // Inputs del simulador
+    const movePct = getOptNum(optBsMoveValue, 0);
+    let daysPassed = Math.max(0, Math.floor(getOptNum(optBsDaysValue, 0)));
+    if (daysPassed > dteTotal) daysPassed = dteTotal;
+
+    // Estado proyectado
+    const S1 = S0 * (1 + movePct / 100);
+    const dteRemaining = Math.max(0, dteTotal - daysPassed);
+    const T0 = dteTotal / 365;
+    const T1 = dteRemaining / 365;
+
+    // BS hoy y proyectado (mismas IV/r)
+    const bs0 = blackScholes(S0, K, T0, r, sigma, optType);
+    const bs1 = blackScholes(S1, K, T1, r, sigma, optType);
+
+    // Ancla la estimación al precio real pagado
+    // Cambio teórico aplicado al premium real
+    const change = bs1 - bs0;
+    const projectedPremium = Math.max(0, premiumNow + change);
+
+    // P/L
+    const pnlPerContract = (projectedPremium - premiumNow) * 100;
+    const pnlPct = premiumNow > 0 ? ((projectedPremium - premiumNow) / premiumNow) * 100 : 0;
+    const pnlTotal = pnlPerContract * contracts;
+
+    // Greeks (en estado actual)
+    const g = greeks(S0, K, T0, r, sigma, optType);
+
+    // ── Update DOM ──
+    document.getElementById('optBsNewStock').textContent = '$' + S1.toFixed(2);
+    document.getElementById('optBsRemainingDte').textContent = dteRemaining + ' días';
+    document.getElementById('optBsValue').textContent = '$' + projectedPremium.toFixed(2);
+    document.getElementById('optBsPnl').textContent =
+      (pnlPerContract >= 0 ? '+$' : '−$') + Math.abs(pnlPerContract).toLocaleString('en-US', { maximumFractionDigits: 0 }) +
+      ' (' + (pnlPct >= 0 ? '+' : '') + pnlPct.toFixed(1) + '%)';
+    document.getElementById('optBsPnlTotal').textContent =
+      (pnlTotal >= 0 ? '+$' : '−$') + Math.abs(pnlTotal).toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+    // Color del P/L
+    const pnlEl = document.getElementById('optBsPnl');
+    const pnlTotalEl = document.getElementById('optBsPnlTotal');
+    const valueEl = document.getElementById('optBsValue');
+    pnlEl.classList.remove('gain', 'loss');
+    pnlTotalEl.classList.remove('gain', 'loss');
+    valueEl.classList.remove('gain', 'loss', 'highlight');
+    optBsProjection.classList.remove('gain', 'loss');
+    if (pnlPerContract > 0) {
+      pnlEl.classList.add('gain');
+      pnlTotalEl.classList.add('gain');
+      valueEl.classList.add('gain');
+      optBsProjection.classList.add('gain');
+    } else if (pnlPerContract < 0) {
+      pnlEl.classList.add('loss');
+      pnlTotalEl.classList.add('loss');
+      valueEl.classList.add('loss');
+      optBsProjection.classList.add('loss');
+    } else {
+      valueEl.classList.add('highlight');
+    }
+
+    // Greeks display
+    document.getElementById('optGreekDelta').textContent = g.delta.toFixed(3);
+    document.getElementById('optGreekGamma').textContent = g.gamma.toFixed(4);
+    document.getElementById('optGreekTheta').textContent = '$' + g.theta.toFixed(3);
+    document.getElementById('optGreekVega').textContent = '$' + g.vega.toFixed(3);
+
+    // Update slider max for days
+    if (+optBsDaysSlider.max !== dteTotal) {
+      optBsDaysSlider.max = Math.max(1, dteTotal);
+      const midDays = Math.floor(dteTotal / 2);
+      const midLabel = midDays >= 365 ? Math.floor(midDays / 365) + 'a' : (midDays >= 30 ? Math.floor(midDays / 30) + 'm' : midDays + 'd');
+      document.getElementById('optBsDaysMid').textContent = midLabel;
+      document.getElementById('optBsDaysMax').textContent = dteTotal + ' días';
+    }
+    if (daysPassed > +optBsDaysSlider.max) {
+      optBsDaysSlider.value = optBsDaysSlider.max;
+      optBsDaysValue.value = optBsDaysSlider.max;
+    }
+
+    updateBsMoveFill();
+    updateBsDaysFill();
+  }
+
+  // ── Wire up sliders ──
+  optBsMoveSlider.addEventListener('input', (e) => {
+    optBsMoveValue.value = parseFloat(e.target.value).toFixed(1);
+    calcBsSimulation();
+  });
+  optBsMoveValue.addEventListener('input', () => {
+    const v = getOptNum(optBsMoveValue, 0);
+    const min = +optBsMoveSlider.min, max = +optBsMoveSlider.max;
+    if (v >= min && v <= max) optBsMoveSlider.value = v;
+    calcBsSimulation();
+  });
+
+  optBsDaysSlider.addEventListener('input', (e) => {
+    optBsDaysValue.value = e.target.value;
+    calcBsSimulation();
+  });
+  optBsDaysValue.addEventListener('input', () => {
+    const v = Math.floor(getOptNum(optBsDaysValue, 0));
+    const min = +optBsDaysSlider.min, max = +optBsDaysSlider.max;
+    if (v >= min && v <= max) optBsDaysSlider.value = v;
+    calcBsSimulation();
+  });
+
+  // IV input también dispara recálculo del simulador
+  optIv.addEventListener('input', calcBsSimulation);
+
+  // Cuando cambian inputs primarios también re-simulamos
+  [optStockPrice, optStrike, optPremium, optContracts, optDte].forEach(el => {
+    el.addEventListener('input', calcBsSimulation);
+  });
+
+  // Type toggle también afecta el simulador
+  document.querySelectorAll('.opt-type-btn').forEach(btn => {
+    btn.addEventListener('click', calcBsSimulation);
+  });
+
+  // Presets de movimiento
+  document.querySelectorAll('.preset-btn[data-bsmove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = parseFloat(btn.dataset.bsmove);
+      optBsMoveValue.value = v.toFixed(1);
+      optBsMoveSlider.value = v;
+      calcBsSimulation();
+    });
+  });
+
+  // Presets de días
+  document.querySelectorAll('.preset-btn[data-bsdays]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = parseInt(btn.dataset.bsdays, 10);
+      const max = +optBsDaysSlider.max;
+      const clamped = Math.min(max, v);
+      optBsDaysValue.value = clamped;
+      optBsDaysSlider.value = clamped;
+      calcBsSimulation();
+    });
+  });
+
+  // Cálculo inicial del simulador
+  calcBsSimulation();
 </script>
 
 </body>
